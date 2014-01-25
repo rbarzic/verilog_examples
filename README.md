@@ -19,6 +19,10 @@ A simple counter counting to a fixed value expressed as a
 parameter. See Readme.md file under ./simple_counter for
 compilation/simulation instructions.
 
+## memory_load
+
+Show how to load a RAM model with the content of a file
+
 
 ## Notes for Ubuntu users :
 - you probably need to install the icarus compiler/simulator, gtkwave,

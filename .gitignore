@@ -1,2 +1,4 @@
 /simple_counter/tb.vcd
 /simple_counter/tb
+/memory_load/tb
+/memory_load/tb.vcd
