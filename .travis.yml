@@ -1,0 +1,13 @@
+language: c
+
+before_install:
+    - sudo apt-get install -y build-essential iverilog
+
+script:
+  - make -C simple_counter comp run
+  - make -C memory_load comp run
+  
+  
+  
+
+  
