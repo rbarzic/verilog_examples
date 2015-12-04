@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rbarzic/verilog_examples.svg?branch=master)](https://travis-ci.org/rbarzic/verilog_examples)
+
 # verilog_examples
 
 
@@ -27,6 +29,5 @@ Show how to load a RAM model with the content of a file
 ## Notes for Ubuntu users :
 - you probably need to install the icarus compiler/simulator, gtkwave,
   and maybe a few extra stuff :
-  
-  `sudo aptitude install build-essential iverilog gtkwave`
 
+  `sudo aptitude install build-essential iverilog gtkwave`
