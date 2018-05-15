@@ -33,8 +33,9 @@ module chip (/*AUTOARG*/
       end
       else begin
         done_r <= 1'b1;
-      end                       
-        
+      end            
+  
+
     end
   end
   

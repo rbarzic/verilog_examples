@@ -4,8 +4,20 @@ comp:
 run:
 	vvp tb
 
+
+
+vermin:
+	vermin -emitstems -emitvars  -f vlist_tb.txt > tb.stems
+	#vermin -emitmono tb.stems -DUSE_LXT2=1 -f vlist_tb.txt
+
 wave:
 	gtkwave tb.vcd
+
+wave_lxt2:
+	# iverilog seems to generate lxt2 file with wrong signal names
+	# so we do a vcd to lxt2 conversion
+	vcd2lxt2 tb.vcd tb.lxt2
+	gtkwave -t tb.stems tb.lxt2
 
 
 help:
@@ -15,7 +27,7 @@ help:
 	@echo "         wave  : View the vcd file using gtkwave vcd viewer"
 
 
-	
+
 
 # For flymake on-the-fly code checking
 check-syntax:
