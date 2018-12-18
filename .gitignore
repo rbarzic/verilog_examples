@@ -2,3 +2,9 @@
 /simple_counter/tb
 /memory_load/tb
 /memory_load/tb.vcd
+*.*~
+/blinky/.Xil/blinky_propImpl.xdc
+/blinky/usage_statistics_webtalk.html
+/blinky/usage_statistics_webtalk.xml
+*.jou
+*.log
