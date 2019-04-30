@@ -27,3 +27,13 @@ timing:
 bitgen:
 	mv led_top.par.udb led_top_par.udb # Stupid bitgen hangling of file extension
 	bitgen   -w led_top_par.udb led_top_par.bit
+
+
+
+synt2:
+	synthesis -a "ice40tp" -p iCE40UP5K -t SG48 -sp "6" -mux_style Auto \
+	-use_io_insertion 1 \
+	-sdc ./source/impl_1/timing_constraints.ldc \
+	-top led_top \
+	-output_hdl outputs/led_top.impl.vm \
+	-f file_list.txt

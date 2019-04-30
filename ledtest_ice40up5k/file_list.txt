@@ -1,0 +1,3 @@
+-ver ./source/impl_1/LED_control.v 
+-ver ./impl_1/pll_24M/rtl/pll_24M.v 
+-vhd ./source/impl_1/rgb_led_top.vhd 
