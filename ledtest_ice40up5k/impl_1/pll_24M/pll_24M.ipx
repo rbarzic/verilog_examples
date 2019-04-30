@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<RadiantModule date="2019 04 30 07:30:42" generator="ipgen" library="module" module="pll" name="pll_24M" source_format="Verilog" vendor="latticesemi.com" version="1.0.1">
+ <Package>
+  <File modified="2019 04 30 07:30:42" name="rtl/pll_24M.v" type="top_level_verilog"/>
+  <File modified="2019 04 30 07:30:42" name="rtl/pll_24M_bb.v" type="black_box_verilog"/>
+  <File modified="2019 04 30 07:30:42" name="misc/pll_24M_tmpl.vhd" type="template_vhdl"/>
+  <File modified="2019 04 30 07:30:42" name="component.xml" type="IP-XACT_output_file"/>
+  <File modified="2019 04 30 07:30:42" name="pll_24M.cfg" type="cfg"/>
+  <File modified="2019 04 30 07:30:42" name="misc/pll_24M_tmpl.v" type="template_verilog"/>
+ </Package>
+</RadiantModule>

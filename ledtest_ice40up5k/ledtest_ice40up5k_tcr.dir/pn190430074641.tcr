@@ -1,0 +1,29 @@
+#Start recording tcl command: 4/30/2019 06:45:52
+#Project Location: /home/ronan/perso/github/verilog_examples/ledtest_ice40up5k; Project name: ledtest_ice40up5k
+prj_create -name "ledtest_ice40up5k" -impl "impl_1" -dev iCE40UP5K-SG48I -performance "High-Performance_1.2V" -synthesis "lse"
+file copy -force -- "/opt/latticesemi/radiant/1.1/docs/tutorial/Radiant_tutorial/LED_control.v" "/opt/latticesemi/radiant/1.1/docs/tutorial/Radiant_tutorial/rgb_led_top.vhd" "/opt/latticesemi/radiant/1.1/docs/tutorial/Radiant_tutorial/testbench.v" "/home/ronan/perso/github/verilog_examples/ledtest_ice40up5k/source/impl_1"
+prj_add_source "/home/ronan/perso/github/verilog_examples/ledtest_ice40up5k/source/impl_1/LED_control.v" "/home/ronan/perso/github/verilog_examples/ledtest_ice40up5k/source/impl_1/rgb_led_top.vhd" "/home/ronan/perso/github/verilog_examples/ledtest_ice40up5k/source/impl_1/testbench.v"
+prj_save 
+prj_add_source "/opt/latticesemi/radiant/1.1/docs/tutorial/Radiant_tutorial/timing_constraints.ldc"
+prj_add_source "/opt/latticesemi/radiant/1.1/docs/tutorial/Radiant_tutorial/design_constraints.pdc"
+prj_remove_source "/opt/latticesemi/radiant/1.1/docs/tutorial/Radiant_tutorial/timing_constraints.ldc"
+prj_remove_source "/opt/latticesemi/radiant/1.1/docs/tutorial/Radiant_tutorial/design_constraints.pdc"
+prj_add_source "/opt/latticesemi/radiant/1.1/docs/tutorial/Radiant_tutorial/timing_constraints.ldc"
+prj_remove_source "/opt/latticesemi/radiant/1.1/docs/tutorial/Radiant_tutorial/timing_constraints.ldc"
+file copy -force -- "/opt/latticesemi/radiant/1.1/docs/tutorial/Radiant_tutorial/timing_constraints.ldc" "/home/ronan/perso/github/verilog_examples/ledtest_ice40up5k/source/impl_1"
+prj_add_source "/home/ronan/perso/github/verilog_examples/ledtest_ice40up5k/source/impl_1/timing_constraints.ldc"
+file copy -force -- "/opt/latticesemi/radiant/1.1/docs/tutorial/Radiant_tutorial/design_constraints.pdc" "/home/ronan/perso/github/verilog_examples/ledtest_ice40up5k/source/impl_1"
+prj_add_source "/home/ronan/perso/github/verilog_examples/ledtest_ice40up5k/source/impl_1/design_constraints.pdc"
+prj_syn_sim_source -src "/home/ronan/perso/github/verilog_examples/ledtest_ice40up5k/source/impl_1/testbench.v" SimulateOnly
+prj_add_source "/home/ronan/perso/github/verilog_examples/ledtest_ice40up5k/impl_1/pll_24M/pll_24M.ipx"
+prj_run Synthesis -impl impl_1
+prj_run Map -impl impl_1
+prj_run PAR -impl impl_1
+prj_run Export -impl impl_1
+prj_run Export -impl impl_1
+prj_run Export -impl impl_1
+launch_programmer_prj "/opt/latticesemi/radiant/1.1"
+launch_programmer_prj "/opt/latticesemi/radiant/1.1"
+prj_save 
+prj_close
+#Stop recording: 4/30/2019 07:46:41
