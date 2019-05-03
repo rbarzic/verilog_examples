@@ -27,6 +27,7 @@ timing:
 bitgen:
 	mv led_top.par.udb led_top_par.udb # Stupid bitgen hangling of file extension
 	bitgen   -w led_top_par.udb led_top_par.bit
+	bitgen   -w led_top_par.udb -nvcm led_top_par.nvcm
 
 
 
@@ -37,3 +38,8 @@ synt2:
 	-top led_top \
 	-output_hdl outputs/led_top.impl.vm \
 	-f file_list.txt
+# Working for the LEDtest project (made using the Radiant GUI)
+# /opt/latticesemi/radiant/1.1/programmer/bin/lin64/pgrcmd -infile ./source/impl_1_1.xcf  -cabletype usb2  -portaddress FTUSB-0
+prog:
+	# this does not work :-(
+	/opt/latticesemi/radiant/1.1/programmer/bin/lin64/pgrcmd -infile ./source/impl_1.xcf -cabletype usb2  -portaddress FTUSB-0 -logfile debug.log

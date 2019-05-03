@@ -1,10 +1,10 @@
 // Verilog netlist produced by program LSE :  version Radiant Software (64-bit) 1.1.0.165.1
-// Netlist written on Tue Apr 30 11:13:32 2019
+// Netlist written on Fri May  3 15:01:23 2019
 // Source file index table: 
 // Object locations will have the form @<file_index>(<first_ line>[<left_column>],<last_line>[<right_column>])
-// file 0 "/home/ronan/perso/github/verilog_examples/ledtest_ice40up5k/impl_1/pll_24M/rtl/pll_24M.v"
-// file 1 "/home/ronan/perso/github/verilog_examples/ledtest_ice40up5k/source/impl_1/LED_control.v"
-// file 2 "/home/ronan/perso/github/verilog_examples/ledtest_ice40up5k/source/impl_1/rgb_led_top.vhd"
+// file 0 "/home/roba/perso/github/verilog_examples/ledtest_ice40up5k/impl_1/pll_24M/rtl/pll_24M.v"
+// file 1 "/home/roba/perso/github/verilog_examples/ledtest_ice40up5k/source/impl_1/LED_control.v"
+// file 2 "/home/roba/perso/github/verilog_examples/ledtest_ice40up5k/source/impl_1/rgb_led_top.vhd"
 // file 3 "/opt/latticesemi/radiant/1.1/cae_library/simulation/verilog/iCE40UP/CCU2_B.v"
 // file 4 "/opt/latticesemi/radiant/1.1/cae_library/simulation/verilog/iCE40UP/FD1P3BZ.v"
 // file 5 "/opt/latticesemi/radiant/1.1/cae_library/simulation/verilog/iCE40UP/FD1P3DZ.v"
