@@ -1,0 +1,5 @@
++timescale+1ns/1ps
+blinky.v
+reset_gen.v
+clock_gen.v
+tb.v
