@@ -8,3 +8,5 @@
 /blinky/usage_statistics_webtalk.xml
 *.jou
 *.log
+/blinky_ice40up5k/*.ini
+*~

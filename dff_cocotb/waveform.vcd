@@ -1,0 +1,51 @@
+$date
+	Fri Jul 10 00:08:41 2020
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module dff $end
+$var wire 1 ! clk $end
+$var wire 1 " d $end
+$var wire 1 # rst_n $end
+$var reg 8 $ dbg_count [7:0] $end
+$var reg 1 % q $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+0%
+b11111111 $
+0#
+0"
+0!
+$end
+#5
+1#
+1!
+#10
+1"
+#55
+0!
+#105
+1%
+1!
+#155
+0!
+#205
+1!
+#210
+0"
+#255
+0!
+#305
+0%
+1!
+#355
+0!
+#405
+1!
+#406
