@@ -1,0 +1,3 @@
+tb.v
+clock_gen.v
+chip.v

@@ -10,3 +10,5 @@
 *.log
 /blinky_ice40up5k/*.ini
 *~
+*.vcd
+sdc_example1/tb
