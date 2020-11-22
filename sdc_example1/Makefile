@@ -1,3 +1,4 @@
+LICENCE?=Virtuoso_Digital_Implem_XL
 
 comp:
 	iverilog -o tb  -c vlist_tb.txt
@@ -8,6 +9,11 @@ run:
 
 wave:
 	gtkwave tb.vcd
+
+
+synt: 
+	genus -lic_startup  $(LICENCE) -f synt_genus.tcl  -log synthesis_genus.log   
+
 
 help:
 	@echo "Targets:"

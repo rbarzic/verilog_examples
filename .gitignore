@@ -12,3 +12,9 @@
 *~
 *.vcd
 sdc_example1/tb
+/sdc_example1/fv/
+/sdc_example1/.rs_roba.tstamp
+/sdc_example1/synthesis_genus.cmd
+/sdc_example1/synthesis_genus.cmd*
+/sdc_example1/synthesis_genus.log
+/sdc_example1/synthesis_genus.log*
