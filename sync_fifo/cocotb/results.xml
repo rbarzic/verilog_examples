@@ -1,0 +1,8 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1606330736" />
+    <testcase classname="test_syn_fifo" name="test_simple" ratio_time="29200.484039260446" sim_time_ns="122.001" time="0.004178047180175781">
+      <failure />
+    </testcase>
+  </testsuite>
+</testsuites>

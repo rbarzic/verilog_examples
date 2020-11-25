@@ -18,3 +18,6 @@ sdc_example1/tb
 /sdc_example1/synthesis_genus.cmd*
 /sdc_example1/synthesis_genus.log
 /sdc_example1/synthesis_genus.log*
+*.vpp
+/sync_fifo/cocotb/__pycache__/
+/sync_fifo/cocotb/sim_build/

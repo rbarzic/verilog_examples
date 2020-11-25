@@ -101,4 +101,18 @@ ram_dp_sr_sw #(DATA_WIDTH,ADDR_WIDTH)DP_RAM (
 .oe_1      (rd_en)        // output enable
 );     
 
+
+`ifdef COCOTB_SIM
+  `ifdef COCOTB_VCD
+   initial begin
+      $dumpfile ("waveform.vcd");
+      $dumpvars;
+      #1;
+   end
+  `endif
+ `endif
+   
+
+
+   
 endmodule
