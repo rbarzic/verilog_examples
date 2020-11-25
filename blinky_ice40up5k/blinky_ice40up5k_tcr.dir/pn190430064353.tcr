@@ -1,0 +1,8 @@
+#Start recording tcl command: 4/29/2019 23:22:59
+#Project Location: /home/ronan/perso/github/verilog_examples/blinky_ice40up5k; Project name: blinky_ice40up5k
+prj_create -name "blinky_ice40up5k" -impl "impl_1" -dev iCE40UP5K-SG48I -performance "High-Performance_1.2V" -synthesis "lse"
+prj_add_source "/home/ronan/perso/github/verilog_examples/blinky_ice40up5k/src/blinky.v"
+prj_save 
+prj_save 
+prj_close
+#Stop recording: 4/30/2019 06:43:53

@@ -1,0 +1,1463 @@
+Lattice Timing Report -  Setup , Version Radiant Software (64-bit) 1.1.0.165.1
+
+Tue Apr 30 13:37:50 2019
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2019 Lattice Semiconductor Corporation,  All rights reserved.
+
+Command line:    timing led_top.par.udb -o led_top.twr
+
+-----------------------------------------
+Design:          led_top
+Family:          iCE40UP
+Device:          iCE40UP5K
+Package:         SG48
+Performance:     High-Performance_1.2V
+-----------------------------------------
+
+
+=====================================================================
+                    Table of Contents
+=====================================================================
+    1  DESIGN CHECKING
+        1.1  SDC Constraints
+        1.2  Combinational Loop
+    2  CLOCK SUMMARY
+        2.1  Clock c_clk12M
+        2.2  Clock c_clk24M
+    3  TIMING ANALYSIS SUMMARY
+        3.1  Overall (Setup and Hold)
+            3.1.1  Constraint Coverage
+            3.1.2  Timing Errors
+            3.1.3  Total Timing Score
+        3.2  Setup Summary Report
+            3.2.1  Setup Constraint Slack Summary
+            3.2.2  Setup Critical Endpoint Summary 
+        3.3  Hold Report Not Requested
+        3.4  Unconstrained Report
+            3.4.1  Unconstrained Start/End Points
+            3.4.2  Start/End Points Without Timing Constraints
+    4  DETAILED REPORT
+        4.1  Setup Detailed Report
+            4.1.1  Setup Path Details For Constraint: create_clock -name {c_clk12M} -period 83.33333333 [get_ports clk12M]
+            4.1.2  Setup Path Details For Constraint: create_generated_clock -name {c_clk24M} -source [get_ports clk12M] -multiply_by 2 -duty_cycle 50 [get_nets U1/clk24M]
+            4.1.3  Setup Path Details For Constraint: set_output_delay -clock [get_clocks c_clk24M] -max 20 [get_ports RED]
+            4.1.4  Setup Path Details For Constraint: set_output_delay -clock [get_clocks c_clk24M] -max 20 [get_ports BLU]
+            4.1.5  Setup Path Details For Constraint: set_output_delay -clock [get_clocks c_clk24M] -max 20 [get_ports GRN]
+            4.1.6  Setup Path Details For Constraint: set_output_delay -clock [get_clocks c_clk24M] -min 1 [get_ports RED]
+            4.1.7  Setup Path Details For Constraint: set_output_delay -clock [get_clocks c_clk24M] -min 1 [get_ports BLU]
+            4.1.8  Setup Path Details For Constraint: set_output_delay -clock [get_clocks c_clk24M] -min 1 [get_ports GRN]
+        4.2  Hold Report Not Requested
+
+=====================================================================
+                    End of Table of Contents
+=====================================================================
+
+==============================================
+1  DESIGN CHECKING
+==============================================
+
+1.1  SDC Constraints
+=====================
+[IGNORED:]create_clock -name {U1/__/lscc_pll_inst/clk12M_c} -period 83.33333333 [get_nets clk12M_c]
+create_clock -name {c_clk12M} -period 83.33333333 [get_ports clk12M]
+create_generated_clock -name {c_clk24M} -source [get_ports clk12M] -multiply_by 2 -duty_cycle 50 [get_nets U1/clk24M]
+set_output_delay -clock [get_clocks c_clk24M] -max 20 [get_ports RED]
+set_output_delay -clock [get_clocks c_clk24M] -max 20 [get_ports BLU]
+set_output_delay -clock [get_clocks c_clk24M] -max 20 [get_ports GRN]
+set_output_delay -clock [get_clocks c_clk24M] -min 1 [get_ports RED]
+set_output_delay -clock [get_clocks c_clk24M] -min 1 [get_ports BLU]
+set_output_delay -clock [get_clocks c_clk24M] -min 1 [get_ports GRN]
+
+1.2  Combinational Loop
+========================
+None
+
+==============================================
+2  CLOCK SUMMARY
+==============================================
+
+2.1 Clock "c_clk12M"
+=======================
+create_clock -name {c_clk12M} -period 83.33333333 [get_ports clk12M]
+
+Single Clock Domain
+-------------------------------------------------------------------------------------------------------
+             Clock c_clk12M             |                    |       Period       |     Frequency      
+-------------------------------------------------------------------------------------------------------
+ From c_clk12M                          |             Target |          83.333 ns |         12.000 MHz 
+                                        | Actual (all paths) |               ---- |               ---- 
+-------------------------------------------------------------------------------------------------------
+
+Clock Domain Crossing
+------------------------------------------------------------------------------------------------------
+             Clock c_clk12M             |   Worst Time Between Edges   |           Comment            
+------------------------------------------------------------------------------------------------------
+ From c_clk24M                          |                         ---- |                      No path 
+------------------------------------------------------------------------------------------------------
+
+2.2 Clock "c_clk24M"
+=======================
+create_generated_clock -name {c_clk24M} -source [get_ports clk12M] -multiply_by 2 -duty_cycle 50 [get_nets U1/clk24M]
+
+Single Clock Domain
+-------------------------------------------------------------------------------------------------------
+             Clock c_clk24M             |                    |       Period       |     Frequency      
+-------------------------------------------------------------------------------------------------------
+ From c_clk24M                          |             Target |          41.666 ns |         24.000 MHz 
+                                        | Actual (all paths) |          34.684 ns |         28.832 MHz 
+-------------------------------------------------------------------------------------------------------
+
+Clock Domain Crossing
+------------------------------------------------------------------------------------------------------
+             Clock c_clk24M             |   Worst Time Between Edges   |           Comment            
+------------------------------------------------------------------------------------------------------
+ From c_clk12M                          |                         ---- |                      No path 
+------------------------------------------------------------------------------------------------------
+
+==============================================
+3  TIMING ANALYSIS SUMMARY
+==============================================
+
+3.1  Overall (Setup and Hold)
+==============================
+
+3.1.1  Constraint Coverage
+---------------------------
+Constraint Coverage: 93.7308%
+
+3.1.2  Timing Errors
+---------------------
+Timing Errors: 0 endpoints (setup), 0 endpoints (hold)
+
+3.1.3  Total Timing Score
+--------------------------
+Total Negative Slack: 0.000 ns (setup), 0.000 ns (hold)
+
+3.2  Setup Summary Report
+==========================
+
+3.2.1  Setup Constraint Slack Summary
+--------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------
+                                        |             |             |        |   Actual (flop to flop)   |                |                
+             SDC Constraint             |   Target    |    Slack    | Levels |   Period    |  Frequency  |  Items Scored  |  Timing Error  
+-------------------------------------------------------------------------------------------------------------------------------------------
+                                        |             |             |        |             |             |                |                
+create_clock -name {c_clk12M} -period 8                                                                                                    
+3.33333333 [get_ports clk12M]           |    -----    |    -----    |   ---- |        ---- |        ---- |        0       |        0       
+                                        |             |             |        |             |             |                |                
+create_generated_clock -name {c_clk24M}                                                                                                    
+ -source [get_ports clk12M] -multiply_b                                                                                                    
+y 2 -duty_cycle 50 [get_nets U1/clk24M] |   41.666 ns |   13.191 ns |    9   |   28.475 ns |  35.119 MHz |       258      |        0       
+                                        |             |             |        |             |             |                |                
+set_output_delay -clock [get_clocks c_c                                                                                                    
+lk24M] -max 20 [get_ports RED]          |   41.666 ns |    8.373 ns |    2   |        ---- |        ---- |        1       |        0       
+                                        |             |             |        |             |             |                |                
+set_output_delay -clock [get_clocks c_c                                                                                                    
+lk24M] -max 20 [get_ports BLU]          |   41.666 ns |    7.512 ns |    2   |        ---- |        ---- |        1       |        0       
+                                        |             |             |        |             |             |                |                
+set_output_delay -clock [get_clocks c_c                                                                                                    
+lk24M] -max 20 [get_ports GRN]          |   41.666 ns |    6.982 ns |    2   |        ---- |        ---- |        1       |        0       
+                                        |             |             |        |             |             |                |                
+set_output_delay -clock [get_clocks c_c                                                                                                    
+lk24M] -min 1 [get_ports RED]           |    -----    |    -----    |   ---- |        ---- |        ---- |        0       |        0       
+                                        |             |             |        |             |             |                |                
+set_output_delay -clock [get_clocks c_c                                                                                                    
+lk24M] -min 1 [get_ports BLU]           |    -----    |    -----    |   ---- |        ---- |        ---- |        0       |        0       
+                                        |             |             |        |             |             |                |                
+set_output_delay -clock [get_clocks c_c                                                                                                    
+lk24M] -min 1 [get_ports GRN]           |    -----    |    -----    |   ---- |        ---- |        ---- |        0       |        0       
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+3.2.2  Setup Critical Endpoint Summary 
+----------------------------------------
+-------------------------------------------------------
+          Listing 10 End Points          |    Slack    
+-------------------------------------------------------
+GRN                                      |    6.983 ns 
+BLU                                      |    7.513 ns 
+RED                                      |    8.374 ns 
+U1/ramp_count__i25/D                     |   13.192 ns 
+U1/ramp_count__i21/D                     |   13.192 ns 
+U1/ramp_count__i23/D                     |   13.192 ns 
+U1/ramp_count__i6/D                      |   13.192 ns 
+U1/ramp_count__i15/D                     |   13.192 ns 
+U1/ramp_count__i22/D                     |   13.258 ns 
+U1/ramp_count__i24/D                     |   13.258 ns 
+-------------------------------------------------------
+                                         |             
+Setup # of endpoints with negative slack:|           0 
+                                         |             
+-------------------------------------------------------
+
+3.3  Hold Report Not Requested
+===============================
+
+3.4  Unconstrained Report
+===========================
+
+3.4.1  Unconstrained Start/End Points
+--------------------------------------
+
+Clocked but unconstrained timing start points
+--------------------------------------------------
+There is no start point satisfying reporting criteria
+
+
+Clocked but unconstrained timing end points
+-------------------------------------------------------------------
+         Listing 10 End Points          |           Type           
+-------------------------------------------------------------------
+{U1/grn_peak_i1/SR   U1/grn_peak_i2/SR} |           No arrival time
+{U1/curr_blu_i17/SR   U1/curr_blu_i16/SR}                           
+                                        |           No arrival time
+{U1/RGB_color_s_i1/SR   U1/RGB_color_s_i2/SR}                           
+                                        |           No arrival time
+{U1/blu_peak_i1/SR   U1/red_peak_i1/SR} |           No arrival time
+{U1/curr_blu_i15/SR   U1/curr_blu_i14/SR}                           
+                                        |           No arrival time
+{U1/off_max_cnt_i1/SR   U1/off_max_cnt_i2/SR}                           
+                                        |           No arrival time
+{U1/curr_blu_i13/SR   U1/curr_blu_i12/SR}                           
+                                        |           No arrival time
+{U1/curr_blu_i11/SR   U1/curr_blu_i10/SR}                           
+                                        |           No arrival time
+{U1/curr_blu_i9/SR   U1/curr_blu_i8/SR} |           No arrival time
+{U1/curr_blu_i7/SR   U1/curr_blu_i6/SR} |           No arrival time
+-------------------------------------------------------------------
+                                        |                          
+Number of unconstrained timing end poin |                          
+ts                                      |                       125
+                                        |                          
+-------------------------------------------------------------------
+
+3.4.2  Start/End Points Without Timing Constraints
+---------------------------------------------------
+
+I/O ports without constraint
+----------------------------
+Possible constraints to use on I/O ports are:
+set_input_delay,
+set_output_delay,
+set_max_delay,
+create_clock,
+create_generated_clock,
+...
+
+-------------------------------------------------------------------
+     Listing 7 Start or End Points      |           Type           
+-------------------------------------------------------------------
+RGB_Blink_En                            |                     input
+color_sel[0]                            |                     input
+color_sel[1]                            |                     input
+rst                                     |                     input
+BLUn                                    |                    output
+GRNn                                    |                    output
+REDn                                    |                    output
+-------------------------------------------------------------------
+                                        |                          
+Number of I/O ports without constraint  |                         7
+                                        |                          
+-------------------------------------------------------------------
+
+Registers without clock definition
+Define the clock for these registers.
+--------------------------------------------------
+There is no instance satisfying reporting criteria
+
+
+==============================================
+4  DETAILED REPORT
+==============================================
+
+4.1  Setup Detailed Report
+===========================
+4.1.1  Setup path details for constraint: create_clock -name {c_clk12M} -period 83.33333333 [get_ports clk12M]
+----------------------------------------------------------------------
+0 endpoints scored, 0 timing errors detected.
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+                    Detailed Report for timing paths 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+                    End of Detailed Report for timing paths 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+4.1.2  Setup path details for constraint: create_generated_clock -name {c_clk24M} -source [get_ports clk12M] -multiply_by 2 -duty_cycle 50 [get_nets U1/clk24M]
+----------------------------------------------------------------------
+258 endpoints scored, 0 timing errors detected.
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+                    Detailed Report for timing paths 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+++++ Path 1 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+Path Begin       : U1/steady_count__i5/Q
+Path End         : U1/ramp_count__i15/D
+Source Clock     : c_clk24M
+Destination Clock: c_clk24M
+Logic Level      : 9
+Delay Ratio      : 82.2% (route), 17.8% (logic)
+Clock Skew       : 0.000 ns
+Setup Constraint : 41.666 ns 
+Path Slack       : 13.191 ns  (Passed)
+
+  Destination Clock Arrival Time (c_clk24M:R#2)    41.666
++ Master Clock Source Latency                       0.000
+- Destination Clock Uncertainty                     0.000
++ Destination Clock Path Delay                      6.170
+- Setup Time                                        0.199
+-----------------------------------------------   -------
+End-of-path required time( ns )                    47.637
+
+  Source Clock Arrival Time (c_clk24M:R#1)    0.000
++ Master Clock Source Latency                 0.000
++ Source Clock Path Delay                     6.170
++ Data Path Delay                            28.276
+------------------------------------------   ------
+End-of-path arrival time( ns )               34.446
+
+ 
+Source Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+Data path
+Name                                      Cell/Site Name  Delay Name       Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  ---------------  -----  ------------  ------  
+{U1/steady_count__i4/CK   U1/steady_count__i5/CK}->U1/steady_count__i5/Q
+                                          SLICE_R17C15A   CLK_TO_Q1_DELAY  1.391         7.561  5       
+U1/steady_count[5]                                        NET DELAY        3.854        11.415  1       
+U1/LessThan_61_i10_3_lut/A->U1/LessThan_61_i10_3_lut/Z
+                                          SLICE_R18C17C   A1_TO_F1_DELAY   0.450        11.865  1       
+U1/n10_adj_103                                            NET DELAY        3.364        15.229  1       
+U1/LessThan_61_i36_4_lut/A->U1/LessThan_61_i36_4_lut/Z
+                                          SLICE_R15C18B   D1_TO_F1_DELAY   0.450        15.679  1       
+U1/n36                                                    NET DELAY        2.768        18.447  1       
+U1/LessThan_61_i38_4_lut/B->U1/LessThan_61_i38_4_lut/Z
+                                          SLICE_R15C17B   D1_TO_F1_DELAY   0.450        18.897  1       
+U1/n38_adj_184                                            NET DELAY        3.086        21.983  1       
+U1/LessThan_61_i40_4_lut/B->U1/LessThan_61_i40_4_lut/Z
+                                          SLICE_R15C16C   B1_TO_F1_DELAY   0.450        22.433  1       
+U1/n40_adj_182                                            NET DELAY        3.152        25.585  1       
+U1/LessThan_61_i56_4_lut/A->U1/LessThan_61_i56_4_lut/Z
+                                          SLICE_R18C16D   A0_TO_F0_DELAY   0.477        26.062  3       
+U1/n611                                                   NET DELAY        0.305        26.367  1       
+U1/i279_3_lut/B->U1/i279_3_lut/Z          SLICE_R18C16D   C1_TO_F1_DELAY   0.450        26.817  1       
+U1/n1034                                                  NET DELAY        2.437        29.254  1       
+U1/i288_4_lut/A->U1/i288_4_lut/Z          SLICE_R18C17A   C1_TO_F1_DELAY   0.450        29.704  56      
+U1/n1979                                                  NET DELAY        4.265        33.969  1       
+U1/i1481_2_lut/B->U1/i1481_2_lut/Z        SLICE_R23C14B   A1_TO_F1_DELAY   0.477        34.446  1       
+U1/n2487                                                  NET DELAY        0.000        34.446  1       
+
+
+Destination Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+
+
+ ++++Path 2  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Path Begin       : U1/steady_count__i5/Q
+Path End         : U1/ramp_count__i6/D
+Source Clock     : c_clk24M
+Destination Clock: c_clk24M
+Logic Level      : 9
+Delay Ratio      : 82.2% (route), 17.8% (logic)
+Clock Skew       : 0.000 ns
+Setup Constraint : 41.666 ns 
+Path Slack       : 13.191 ns  (Passed)
+
+  Destination Clock Arrival Time (c_clk24M:R#2)    41.666
++ Master Clock Source Latency                       0.000
+- Destination Clock Uncertainty                     0.000
++ Destination Clock Path Delay                      6.170
+- Setup Time                                        0.199
+-----------------------------------------------   -------
+End-of-path required time( ns )                    47.637
+
+  Source Clock Arrival Time (c_clk24M:R#1)    0.000
++ Master Clock Source Latency                 0.000
++ Source Clock Path Delay                     6.170
++ Data Path Delay                            28.276
+------------------------------------------   ------
+End-of-path arrival time( ns )               34.446
+
+ 
+Source Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+Data path
+Name                                      Cell/Site Name  Delay Name       Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  ---------------  -----  ------------  ------  
+{U1/steady_count__i4/CK   U1/steady_count__i5/CK}->U1/steady_count__i5/Q
+                                          SLICE_R17C15A   CLK_TO_Q1_DELAY  1.391         7.561  5       
+U1/steady_count[5]                                        NET DELAY        3.854        11.415  1       
+U1/LessThan_61_i10_3_lut/A->U1/LessThan_61_i10_3_lut/Z
+                                          SLICE_R18C17C   A1_TO_F1_DELAY   0.450        11.865  1       
+U1/n10_adj_103                                            NET DELAY        3.364        15.229  1       
+U1/LessThan_61_i36_4_lut/A->U1/LessThan_61_i36_4_lut/Z
+                                          SLICE_R15C18B   D1_TO_F1_DELAY   0.450        15.679  1       
+U1/n36                                                    NET DELAY        2.768        18.447  1       
+U1/LessThan_61_i38_4_lut/B->U1/LessThan_61_i38_4_lut/Z
+                                          SLICE_R15C17B   D1_TO_F1_DELAY   0.450        18.897  1       
+U1/n38_adj_184                                            NET DELAY        3.086        21.983  1       
+U1/LessThan_61_i40_4_lut/B->U1/LessThan_61_i40_4_lut/Z
+                                          SLICE_R15C16C   B1_TO_F1_DELAY   0.450        22.433  1       
+U1/n40_adj_182                                            NET DELAY        3.152        25.585  1       
+U1/LessThan_61_i56_4_lut/A->U1/LessThan_61_i56_4_lut/Z
+                                          SLICE_R18C16D   A0_TO_F0_DELAY   0.477        26.062  3       
+U1/n611                                                   NET DELAY        0.305        26.367  1       
+U1/i279_3_lut/B->U1/i279_3_lut/Z          SLICE_R18C16D   C1_TO_F1_DELAY   0.450        26.817  1       
+U1/n1034                                                  NET DELAY        2.437        29.254  1       
+U1/i288_4_lut/A->U1/i288_4_lut/Z          SLICE_R18C17A   C1_TO_F1_DELAY   0.450        29.704  56      
+U1/n1979                                                  NET DELAY        4.265        33.969  1       
+U1/i1490_2_lut/B->U1/i1490_2_lut/Z        SLICE_R23C14A   A1_TO_F1_DELAY   0.477        34.446  1       
+U1/n2505                                                  NET DELAY        0.000        34.446  1       
+
+
+Destination Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+
+
+ ++++Path 3  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Path Begin       : U1/steady_count__i5/Q
+Path End         : U1/ramp_count__i23/D
+Source Clock     : c_clk24M
+Destination Clock: c_clk24M
+Logic Level      : 9
+Delay Ratio      : 82.2% (route), 17.8% (logic)
+Clock Skew       : 0.000 ns
+Setup Constraint : 41.666 ns 
+Path Slack       : 13.191 ns  (Passed)
+
+  Destination Clock Arrival Time (c_clk24M:R#2)    41.666
++ Master Clock Source Latency                       0.000
+- Destination Clock Uncertainty                     0.000
++ Destination Clock Path Delay                      6.170
+- Setup Time                                        0.199
+-----------------------------------------------   -------
+End-of-path required time( ns )                    47.637
+
+  Source Clock Arrival Time (c_clk24M:R#1)    0.000
++ Master Clock Source Latency                 0.000
++ Source Clock Path Delay                     6.170
++ Data Path Delay                            28.276
+------------------------------------------   ------
+End-of-path arrival time( ns )               34.446
+
+ 
+Source Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+Data path
+Name                                      Cell/Site Name  Delay Name       Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  ---------------  -----  ------------  ------  
+{U1/steady_count__i4/CK   U1/steady_count__i5/CK}->U1/steady_count__i5/Q
+                                          SLICE_R17C15A   CLK_TO_Q1_DELAY  1.391         7.561  5       
+U1/steady_count[5]                                        NET DELAY        3.854        11.415  1       
+U1/LessThan_61_i10_3_lut/A->U1/LessThan_61_i10_3_lut/Z
+                                          SLICE_R18C17C   A1_TO_F1_DELAY   0.450        11.865  1       
+U1/n10_adj_103                                            NET DELAY        3.364        15.229  1       
+U1/LessThan_61_i36_4_lut/A->U1/LessThan_61_i36_4_lut/Z
+                                          SLICE_R15C18B   D1_TO_F1_DELAY   0.450        15.679  1       
+U1/n36                                                    NET DELAY        2.768        18.447  1       
+U1/LessThan_61_i38_4_lut/B->U1/LessThan_61_i38_4_lut/Z
+                                          SLICE_R15C17B   D1_TO_F1_DELAY   0.450        18.897  1       
+U1/n38_adj_184                                            NET DELAY        3.086        21.983  1       
+U1/LessThan_61_i40_4_lut/B->U1/LessThan_61_i40_4_lut/Z
+                                          SLICE_R15C16C   B1_TO_F1_DELAY   0.450        22.433  1       
+U1/n40_adj_182                                            NET DELAY        3.152        25.585  1       
+U1/LessThan_61_i56_4_lut/A->U1/LessThan_61_i56_4_lut/Z
+                                          SLICE_R18C16D   A0_TO_F0_DELAY   0.477        26.062  3       
+U1/n611                                                   NET DELAY        0.305        26.367  1       
+U1/i279_3_lut/B->U1/i279_3_lut/Z          SLICE_R18C16D   C1_TO_F1_DELAY   0.450        26.817  1       
+U1/n1034                                                  NET DELAY        2.437        29.254  1       
+U1/i288_4_lut/A->U1/i288_4_lut/Z          SLICE_R18C17A   C1_TO_F1_DELAY   0.450        29.704  56      
+U1/n1979                                                  NET DELAY        4.265        33.969  1       
+U1/i1473_2_lut/B->U1/i1473_2_lut/Z        SLICE_R22C17A   A1_TO_F1_DELAY   0.477        34.446  1       
+U1/n2471                                                  NET DELAY        0.000        34.446  1       
+
+
+Destination Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+
+
+ ++++Path 4  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Path Begin       : U1/steady_count__i5/Q
+Path End         : U1/ramp_count__i25/D
+Source Clock     : c_clk24M
+Destination Clock: c_clk24M
+Logic Level      : 9
+Delay Ratio      : 82.2% (route), 17.8% (logic)
+Clock Skew       : 0.000 ns
+Setup Constraint : 41.666 ns 
+Path Slack       : 13.191 ns  (Passed)
+
+  Destination Clock Arrival Time (c_clk24M:R#2)    41.666
++ Master Clock Source Latency                       0.000
+- Destination Clock Uncertainty                     0.000
++ Destination Clock Path Delay                      6.170
+- Setup Time                                        0.199
+-----------------------------------------------   -------
+End-of-path required time( ns )                    47.637
+
+  Source Clock Arrival Time (c_clk24M:R#1)    0.000
++ Master Clock Source Latency                 0.000
++ Source Clock Path Delay                     6.170
++ Data Path Delay                            28.276
+------------------------------------------   ------
+End-of-path arrival time( ns )               34.446
+
+ 
+Source Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+Data path
+Name                                      Cell/Site Name  Delay Name       Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  ---------------  -----  ------------  ------  
+{U1/steady_count__i4/CK   U1/steady_count__i5/CK}->U1/steady_count__i5/Q
+                                          SLICE_R17C15A   CLK_TO_Q1_DELAY  1.391         7.561  5       
+U1/steady_count[5]                                        NET DELAY        3.854        11.415  1       
+U1/LessThan_61_i10_3_lut/A->U1/LessThan_61_i10_3_lut/Z
+                                          SLICE_R18C17C   A1_TO_F1_DELAY   0.450        11.865  1       
+U1/n10_adj_103                                            NET DELAY        3.364        15.229  1       
+U1/LessThan_61_i36_4_lut/A->U1/LessThan_61_i36_4_lut/Z
+                                          SLICE_R15C18B   D1_TO_F1_DELAY   0.450        15.679  1       
+U1/n36                                                    NET DELAY        2.768        18.447  1       
+U1/LessThan_61_i38_4_lut/B->U1/LessThan_61_i38_4_lut/Z
+                                          SLICE_R15C17B   D1_TO_F1_DELAY   0.450        18.897  1       
+U1/n38_adj_184                                            NET DELAY        3.086        21.983  1       
+U1/LessThan_61_i40_4_lut/B->U1/LessThan_61_i40_4_lut/Z
+                                          SLICE_R15C16C   B1_TO_F1_DELAY   0.450        22.433  1       
+U1/n40_adj_182                                            NET DELAY        3.152        25.585  1       
+U1/LessThan_61_i56_4_lut/A->U1/LessThan_61_i56_4_lut/Z
+                                          SLICE_R18C16D   A0_TO_F0_DELAY   0.477        26.062  3       
+U1/n611                                                   NET DELAY        0.305        26.367  1       
+U1/i279_3_lut/B->U1/i279_3_lut/Z          SLICE_R18C16D   C1_TO_F1_DELAY   0.450        26.817  1       
+U1/n1034                                                  NET DELAY        2.437        29.254  1       
+U1/i288_4_lut/A->U1/i288_4_lut/Z          SLICE_R18C17A   C1_TO_F1_DELAY   0.450        29.704  56      
+U1/n1979                                                  NET DELAY        4.265        33.969  1       
+U1/i1471_2_lut/B->U1/i1471_2_lut/Z        SLICE_R22C16D   A0_TO_F0_DELAY   0.477        34.446  1       
+U1/n2467                                                  NET DELAY        0.000        34.446  1       
+
+
+Destination Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+
+
+ ++++Path 5  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Path Begin       : U1/steady_count__i5/Q
+Path End         : U1/ramp_count__i21/D
+Source Clock     : c_clk24M
+Destination Clock: c_clk24M
+Logic Level      : 9
+Delay Ratio      : 82.2% (route), 17.8% (logic)
+Clock Skew       : 0.000 ns
+Setup Constraint : 41.666 ns 
+Path Slack       : 13.191 ns  (Passed)
+
+  Destination Clock Arrival Time (c_clk24M:R#2)    41.666
++ Master Clock Source Latency                       0.000
+- Destination Clock Uncertainty                     0.000
++ Destination Clock Path Delay                      6.170
+- Setup Time                                        0.199
+-----------------------------------------------   -------
+End-of-path required time( ns )                    47.637
+
+  Source Clock Arrival Time (c_clk24M:R#1)    0.000
++ Master Clock Source Latency                 0.000
++ Source Clock Path Delay                     6.170
++ Data Path Delay                            28.276
+------------------------------------------   ------
+End-of-path arrival time( ns )               34.446
+
+ 
+Source Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+Data path
+Name                                      Cell/Site Name  Delay Name       Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  ---------------  -----  ------------  ------  
+{U1/steady_count__i4/CK   U1/steady_count__i5/CK}->U1/steady_count__i5/Q
+                                          SLICE_R17C15A   CLK_TO_Q1_DELAY  1.391         7.561  5       
+U1/steady_count[5]                                        NET DELAY        3.854        11.415  1       
+U1/LessThan_61_i10_3_lut/A->U1/LessThan_61_i10_3_lut/Z
+                                          SLICE_R18C17C   A1_TO_F1_DELAY   0.450        11.865  1       
+U1/n10_adj_103                                            NET DELAY        3.364        15.229  1       
+U1/LessThan_61_i36_4_lut/A->U1/LessThan_61_i36_4_lut/Z
+                                          SLICE_R15C18B   D1_TO_F1_DELAY   0.450        15.679  1       
+U1/n36                                                    NET DELAY        2.768        18.447  1       
+U1/LessThan_61_i38_4_lut/B->U1/LessThan_61_i38_4_lut/Z
+                                          SLICE_R15C17B   D1_TO_F1_DELAY   0.450        18.897  1       
+U1/n38_adj_184                                            NET DELAY        3.086        21.983  1       
+U1/LessThan_61_i40_4_lut/B->U1/LessThan_61_i40_4_lut/Z
+                                          SLICE_R15C16C   B1_TO_F1_DELAY   0.450        22.433  1       
+U1/n40_adj_182                                            NET DELAY        3.152        25.585  1       
+U1/LessThan_61_i56_4_lut/A->U1/LessThan_61_i56_4_lut/Z
+                                          SLICE_R18C16D   A0_TO_F0_DELAY   0.477        26.062  3       
+U1/n611                                                   NET DELAY        0.305        26.367  1       
+U1/i279_3_lut/B->U1/i279_3_lut/Z          SLICE_R18C16D   C1_TO_F1_DELAY   0.450        26.817  1       
+U1/n1034                                                  NET DELAY        2.437        29.254  1       
+U1/i288_4_lut/A->U1/i288_4_lut/Z          SLICE_R18C17A   C1_TO_F1_DELAY   0.450        29.704  56      
+U1/n1979                                                  NET DELAY        4.265        33.969  1       
+U1/i1475_2_lut/B->U1/i1475_2_lut/Z        SLICE_R23C14C   A1_TO_F1_DELAY   0.477        34.446  1       
+U1/n2475                                                  NET DELAY        0.000        34.446  1       
+
+
+Destination Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+
+
+ ++++Path 6  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Path Begin       : U1/steady_count__i5/Q
+Path End         : U1/ramp_count__i22/D
+Source Clock     : c_clk24M
+Destination Clock: c_clk24M
+Logic Level      : 9
+Delay Ratio      : 82.1% (route), 17.9% (logic)
+Clock Skew       : 0.000 ns
+Setup Constraint : 41.666 ns 
+Path Slack       : 13.257 ns  (Passed)
+
+  Destination Clock Arrival Time (c_clk24M:R#2)    41.666
++ Master Clock Source Latency                       0.000
+- Destination Clock Uncertainty                     0.000
++ Destination Clock Path Delay                      6.170
+- Setup Time                                        0.199
+-----------------------------------------------   -------
+End-of-path required time( ns )                    47.637
+
+  Source Clock Arrival Time (c_clk24M:R#1)    0.000
++ Master Clock Source Latency                 0.000
++ Source Clock Path Delay                     6.170
++ Data Path Delay                            28.210
+------------------------------------------   ------
+End-of-path arrival time( ns )               34.380
+
+ 
+Source Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+Data path
+Name                                      Cell/Site Name  Delay Name       Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  ---------------  -----  ------------  ------  
+{U1/steady_count__i4/CK   U1/steady_count__i5/CK}->U1/steady_count__i5/Q
+                                          SLICE_R17C15A   CLK_TO_Q1_DELAY  1.391         7.561  5       
+U1/steady_count[5]                                        NET DELAY        3.854        11.415  1       
+U1/LessThan_61_i10_3_lut/A->U1/LessThan_61_i10_3_lut/Z
+                                          SLICE_R18C17C   A1_TO_F1_DELAY   0.450        11.865  1       
+U1/n10_adj_103                                            NET DELAY        3.364        15.229  1       
+U1/LessThan_61_i36_4_lut/A->U1/LessThan_61_i36_4_lut/Z
+                                          SLICE_R15C18B   D1_TO_F1_DELAY   0.450        15.679  1       
+U1/n36                                                    NET DELAY        2.768        18.447  1       
+U1/LessThan_61_i38_4_lut/B->U1/LessThan_61_i38_4_lut/Z
+                                          SLICE_R15C17B   D1_TO_F1_DELAY   0.450        18.897  1       
+U1/n38_adj_184                                            NET DELAY        3.086        21.983  1       
+U1/LessThan_61_i40_4_lut/B->U1/LessThan_61_i40_4_lut/Z
+                                          SLICE_R15C16C   B1_TO_F1_DELAY   0.450        22.433  1       
+U1/n40_adj_182                                            NET DELAY        3.152        25.585  1       
+U1/LessThan_61_i56_4_lut/A->U1/LessThan_61_i56_4_lut/Z
+                                          SLICE_R18C16D   A0_TO_F0_DELAY   0.477        26.062  3       
+U1/n611                                                   NET DELAY        0.305        26.367  1       
+U1/i279_3_lut/B->U1/i279_3_lut/Z          SLICE_R18C16D   C1_TO_F1_DELAY   0.450        26.817  1       
+U1/n1034                                                  NET DELAY        2.437        29.254  1       
+U1/i288_4_lut/A->U1/i288_4_lut/Z          SLICE_R18C17A   C1_TO_F1_DELAY   0.450        29.704  56      
+U1/n1979                                                  NET DELAY        4.199        33.903  1       
+U1/i1474_2_lut/B->U1/i1474_2_lut/Z        SLICE_R22C17A   B0_TO_F0_DELAY   0.477        34.380  1       
+U1/n2473                                                  NET DELAY        0.000        34.380  1       
+
+
+Destination Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+
+
+ ++++Path 7  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Path Begin       : U1/steady_count__i5/Q
+Path End         : U1/ramp_count__i24/D
+Source Clock     : c_clk24M
+Destination Clock: c_clk24M
+Logic Level      : 9
+Delay Ratio      : 82.1% (route), 17.9% (logic)
+Clock Skew       : 0.000 ns
+Setup Constraint : 41.666 ns 
+Path Slack       : 13.257 ns  (Passed)
+
+  Destination Clock Arrival Time (c_clk24M:R#2)    41.666
++ Master Clock Source Latency                       0.000
+- Destination Clock Uncertainty                     0.000
++ Destination Clock Path Delay                      6.170
+- Setup Time                                        0.199
+-----------------------------------------------   -------
+End-of-path required time( ns )                    47.637
+
+  Source Clock Arrival Time (c_clk24M:R#1)    0.000
++ Master Clock Source Latency                 0.000
++ Source Clock Path Delay                     6.170
++ Data Path Delay                            28.210
+------------------------------------------   ------
+End-of-path arrival time( ns )               34.380
+
+ 
+Source Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+Data path
+Name                                      Cell/Site Name  Delay Name       Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  ---------------  -----  ------------  ------  
+{U1/steady_count__i4/CK   U1/steady_count__i5/CK}->U1/steady_count__i5/Q
+                                          SLICE_R17C15A   CLK_TO_Q1_DELAY  1.391         7.561  5       
+U1/steady_count[5]                                        NET DELAY        3.854        11.415  1       
+U1/LessThan_61_i10_3_lut/A->U1/LessThan_61_i10_3_lut/Z
+                                          SLICE_R18C17C   A1_TO_F1_DELAY   0.450        11.865  1       
+U1/n10_adj_103                                            NET DELAY        3.364        15.229  1       
+U1/LessThan_61_i36_4_lut/A->U1/LessThan_61_i36_4_lut/Z
+                                          SLICE_R15C18B   D1_TO_F1_DELAY   0.450        15.679  1       
+U1/n36                                                    NET DELAY        2.768        18.447  1       
+U1/LessThan_61_i38_4_lut/B->U1/LessThan_61_i38_4_lut/Z
+                                          SLICE_R15C17B   D1_TO_F1_DELAY   0.450        18.897  1       
+U1/n38_adj_184                                            NET DELAY        3.086        21.983  1       
+U1/LessThan_61_i40_4_lut/B->U1/LessThan_61_i40_4_lut/Z
+                                          SLICE_R15C16C   B1_TO_F1_DELAY   0.450        22.433  1       
+U1/n40_adj_182                                            NET DELAY        3.152        25.585  1       
+U1/LessThan_61_i56_4_lut/A->U1/LessThan_61_i56_4_lut/Z
+                                          SLICE_R18C16D   A0_TO_F0_DELAY   0.477        26.062  3       
+U1/n611                                                   NET DELAY        0.305        26.367  1       
+U1/i279_3_lut/B->U1/i279_3_lut/Z          SLICE_R18C16D   C1_TO_F1_DELAY   0.450        26.817  1       
+U1/n1034                                                  NET DELAY        2.437        29.254  1       
+U1/i288_4_lut/A->U1/i288_4_lut/Z          SLICE_R18C17A   C1_TO_F1_DELAY   0.450        29.704  56      
+U1/n1979                                                  NET DELAY        4.199        33.903  1       
+U1/i1472_2_lut/B->U1/i1472_2_lut/Z        SLICE_R22C16D   B1_TO_F1_DELAY   0.477        34.380  1       
+U1/n2469                                                  NET DELAY        0.000        34.380  1       
+
+
+Destination Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+
+
+ ++++Path 8  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Path Begin       : U1/steady_count__i5/Q
+Path End         : U1/ramp_count__i17/D
+Source Clock     : c_clk24M
+Destination Clock: c_clk24M
+Logic Level      : 9
+Delay Ratio      : 82.1% (route), 17.9% (logic)
+Clock Skew       : 0.000 ns
+Setup Constraint : 41.666 ns 
+Path Slack       : 13.310 ns  (Passed)
+
+  Destination Clock Arrival Time (c_clk24M:R#2)    41.666
++ Master Clock Source Latency                       0.000
+- Destination Clock Uncertainty                     0.000
++ Destination Clock Path Delay                      6.170
+- Setup Time                                        0.199
+-----------------------------------------------   -------
+End-of-path required time( ns )                    47.637
+
+  Source Clock Arrival Time (c_clk24M:R#1)    0.000
++ Master Clock Source Latency                 0.000
++ Source Clock Path Delay                     6.170
++ Data Path Delay                            28.157
+------------------------------------------   ------
+End-of-path arrival time( ns )               34.327
+
+ 
+Source Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+Data path
+Name                                      Cell/Site Name  Delay Name       Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  ---------------  -----  ------------  ------  
+{U1/steady_count__i4/CK   U1/steady_count__i5/CK}->U1/steady_count__i5/Q
+                                          SLICE_R17C15A   CLK_TO_Q1_DELAY  1.391         7.561  5       
+U1/steady_count[5]                                        NET DELAY        3.854        11.415  1       
+U1/LessThan_61_i10_3_lut/A->U1/LessThan_61_i10_3_lut/Z
+                                          SLICE_R18C17C   A1_TO_F1_DELAY   0.450        11.865  1       
+U1/n10_adj_103                                            NET DELAY        3.364        15.229  1       
+U1/LessThan_61_i36_4_lut/A->U1/LessThan_61_i36_4_lut/Z
+                                          SLICE_R15C18B   D1_TO_F1_DELAY   0.450        15.679  1       
+U1/n36                                                    NET DELAY        2.768        18.447  1       
+U1/LessThan_61_i38_4_lut/B->U1/LessThan_61_i38_4_lut/Z
+                                          SLICE_R15C17B   D1_TO_F1_DELAY   0.450        18.897  1       
+U1/n38_adj_184                                            NET DELAY        3.086        21.983  1       
+U1/LessThan_61_i40_4_lut/B->U1/LessThan_61_i40_4_lut/Z
+                                          SLICE_R15C16C   B1_TO_F1_DELAY   0.450        22.433  1       
+U1/n40_adj_182                                            NET DELAY        3.152        25.585  1       
+U1/LessThan_61_i56_4_lut/A->U1/LessThan_61_i56_4_lut/Z
+                                          SLICE_R18C16D   A0_TO_F0_DELAY   0.477        26.062  3       
+U1/n611                                                   NET DELAY        0.305        26.367  1       
+U1/i279_3_lut/B->U1/i279_3_lut/Z          SLICE_R18C16D   C1_TO_F1_DELAY   0.450        26.817  1       
+U1/n1034                                                  NET DELAY        2.437        29.254  1       
+U1/i288_4_lut/A->U1/i288_4_lut/Z          SLICE_R18C17A   C1_TO_F1_DELAY   0.450        29.704  56      
+U1/n1979                                                  NET DELAY        4.146        33.850  1       
+U1/i1479_2_lut/B->U1/i1479_2_lut/Z        SLICE_R23C15B   C1_TO_F1_DELAY   0.477        34.327  1       
+U1/n2483                                                  NET DELAY        0.000        34.327  1       
+
+
+Destination Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+
+
+ ++++Path 9  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Path Begin       : U1/steady_count__i5/Q
+Path End         : U1/ramp_count__i18/D
+Source Clock     : c_clk24M
+Destination Clock: c_clk24M
+Logic Level      : 9
+Delay Ratio      : 82.1% (route), 17.9% (logic)
+Clock Skew       : 0.000 ns
+Setup Constraint : 41.666 ns 
+Path Slack       : 13.310 ns  (Passed)
+
+  Destination Clock Arrival Time (c_clk24M:R#2)    41.666
++ Master Clock Source Latency                       0.000
+- Destination Clock Uncertainty                     0.000
++ Destination Clock Path Delay                      6.170
+- Setup Time                                        0.199
+-----------------------------------------------   -------
+End-of-path required time( ns )                    47.637
+
+  Source Clock Arrival Time (c_clk24M:R#1)    0.000
++ Master Clock Source Latency                 0.000
++ Source Clock Path Delay                     6.170
++ Data Path Delay                            28.157
+------------------------------------------   ------
+End-of-path arrival time( ns )               34.327
+
+ 
+Source Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+Data path
+Name                                      Cell/Site Name  Delay Name       Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  ---------------  -----  ------------  ------  
+{U1/steady_count__i4/CK   U1/steady_count__i5/CK}->U1/steady_count__i5/Q
+                                          SLICE_R17C15A   CLK_TO_Q1_DELAY  1.391         7.561  5       
+U1/steady_count[5]                                        NET DELAY        3.854        11.415  1       
+U1/LessThan_61_i10_3_lut/A->U1/LessThan_61_i10_3_lut/Z
+                                          SLICE_R18C17C   A1_TO_F1_DELAY   0.450        11.865  1       
+U1/n10_adj_103                                            NET DELAY        3.364        15.229  1       
+U1/LessThan_61_i36_4_lut/A->U1/LessThan_61_i36_4_lut/Z
+                                          SLICE_R15C18B   D1_TO_F1_DELAY   0.450        15.679  1       
+U1/n36                                                    NET DELAY        2.768        18.447  1       
+U1/LessThan_61_i38_4_lut/B->U1/LessThan_61_i38_4_lut/Z
+                                          SLICE_R15C17B   D1_TO_F1_DELAY   0.450        18.897  1       
+U1/n38_adj_184                                            NET DELAY        3.086        21.983  1       
+U1/LessThan_61_i40_4_lut/B->U1/LessThan_61_i40_4_lut/Z
+                                          SLICE_R15C16C   B1_TO_F1_DELAY   0.450        22.433  1       
+U1/n40_adj_182                                            NET DELAY        3.152        25.585  1       
+U1/LessThan_61_i56_4_lut/A->U1/LessThan_61_i56_4_lut/Z
+                                          SLICE_R18C16D   A0_TO_F0_DELAY   0.477        26.062  3       
+U1/n611                                                   NET DELAY        0.305        26.367  1       
+U1/i279_3_lut/B->U1/i279_3_lut/Z          SLICE_R18C16D   C1_TO_F1_DELAY   0.450        26.817  1       
+U1/n1034                                                  NET DELAY        2.437        29.254  1       
+U1/i288_4_lut/A->U1/i288_4_lut/Z          SLICE_R18C17A   C1_TO_F1_DELAY   0.450        29.704  56      
+U1/n1979                                                  NET DELAY        4.146        33.850  1       
+U1/i1478_2_lut/B->U1/i1478_2_lut/Z        SLICE_R23C15D   C1_TO_F1_DELAY   0.477        34.327  1       
+U1/n2481                                                  NET DELAY        0.000        34.327  1       
+
+
+Destination Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+
+
+ ++++Path 10  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Path Begin       : U1/steady_count__i5/Q
+Path End         : U1/ramp_count__i27/D
+Source Clock     : c_clk24M
+Destination Clock: c_clk24M
+Logic Level      : 9
+Delay Ratio      : 82.1% (route), 17.9% (logic)
+Clock Skew       : 0.000 ns
+Setup Constraint : 41.666 ns 
+Path Slack       : 13.310 ns  (Passed)
+
+  Destination Clock Arrival Time (c_clk24M:R#2)    41.666
++ Master Clock Source Latency                       0.000
+- Destination Clock Uncertainty                     0.000
++ Destination Clock Path Delay                      6.170
+- Setup Time                                        0.199
+-----------------------------------------------   -------
+End-of-path required time( ns )                    47.637
+
+  Source Clock Arrival Time (c_clk24M:R#1)    0.000
++ Master Clock Source Latency                 0.000
++ Source Clock Path Delay                     6.170
++ Data Path Delay                            28.157
+------------------------------------------   ------
+End-of-path arrival time( ns )               34.327
+
+ 
+Source Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+Data path
+Name                                      Cell/Site Name  Delay Name       Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  ---------------  -----  ------------  ------  
+{U1/steady_count__i4/CK   U1/steady_count__i5/CK}->U1/steady_count__i5/Q
+                                          SLICE_R17C15A   CLK_TO_Q1_DELAY  1.391         7.561  5       
+U1/steady_count[5]                                        NET DELAY        3.854        11.415  1       
+U1/LessThan_61_i10_3_lut/A->U1/LessThan_61_i10_3_lut/Z
+                                          SLICE_R18C17C   A1_TO_F1_DELAY   0.450        11.865  1       
+U1/n10_adj_103                                            NET DELAY        3.364        15.229  1       
+U1/LessThan_61_i36_4_lut/A->U1/LessThan_61_i36_4_lut/Z
+                                          SLICE_R15C18B   D1_TO_F1_DELAY   0.450        15.679  1       
+U1/n36                                                    NET DELAY        2.768        18.447  1       
+U1/LessThan_61_i38_4_lut/B->U1/LessThan_61_i38_4_lut/Z
+                                          SLICE_R15C17B   D1_TO_F1_DELAY   0.450        18.897  1       
+U1/n38_adj_184                                            NET DELAY        3.086        21.983  1       
+U1/LessThan_61_i40_4_lut/B->U1/LessThan_61_i40_4_lut/Z
+                                          SLICE_R15C16C   B1_TO_F1_DELAY   0.450        22.433  1       
+U1/n40_adj_182                                            NET DELAY        3.152        25.585  1       
+U1/LessThan_61_i56_4_lut/A->U1/LessThan_61_i56_4_lut/Z
+                                          SLICE_R18C16D   A0_TO_F0_DELAY   0.477        26.062  3       
+U1/n611                                                   NET DELAY        0.305        26.367  1       
+U1/i279_3_lut/B->U1/i279_3_lut/Z          SLICE_R18C16D   C1_TO_F1_DELAY   0.450        26.817  1       
+U1/n1034                                                  NET DELAY        2.437        29.254  1       
+U1/i288_4_lut/A->U1/i288_4_lut/Z          SLICE_R18C17A   C1_TO_F1_DELAY   0.450        29.704  56      
+U1/n1979                                                  NET DELAY        4.146        33.850  1       
+U1/i1469_2_lut/B->U1/i1469_2_lut/Z        SLICE_R23C16B   C1_TO_F1_DELAY   0.477        34.327  1       
+U1/n2463                                                  NET DELAY        0.000        34.327  1       
+
+
+Destination Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    End of Detailed Report for timing paths 
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+4.1.3  Setup path details for constraint: set_output_delay -clock [get_clocks c_clk24M] -max 20 [get_ports RED]
+----------------------------------------------------------------------
+1 endpoints scored, 0 timing errors detected.
+
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    Detailed Report for timing paths 
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+ ++++Path 1  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Path Begin       : U1/red_pwm/Q
+Path End         : RED
+Source Clock     : c_clk24M
+Destination Clock: c_clk24M
+Logic Level      : 2
+Delay Ratio      : 55.3% (route), 44.7% (logic)
+Clock Skew       : -5.510 ns
+Setup Constraint : 41.666 ns 
+Path Slack       : 8.373 ns  (Passed)
+
+  Destination Clock Arrival Time (c_clk24M:R#2)    41.666
++ Master Clock Source Latency                       0.000
+- Destination Clock Uncertainty                     0.000
++ Destination Clock Path Delay                      0.660
+- Output Delay                                     20.000
+-----------------------------------------------   -------
+End-of-path required time( ns )                    22.326
+
+  Source Clock Arrival Time (c_clk24M:R#1)    0.000
++ Master Clock Source Latency                 0.000
++ Source Clock Path Delay                     6.170
++ Data Path Delay                             7.783
+------------------------------------------   ------
+End-of-path arrival time( ns )               13.953
+
+ 
+Source Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+Data path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+U1/red_pwm/CK->U1/red_pwm/Q               SLICE_R13C10A   CLK_TO_Q1_DELAY       1.391         7.561  2       
+RED_c                                                     NET DELAY             4.304        11.865  1       
+RED_pad.bb_inst/I->RED_pad.bb_inst/B      PIO_45          PADDO_TO_IOPAD_DELAY  2.088        13.953  1       
+RED                                                       NET DELAY             0.000        13.953  1       
+
+
+Destination Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+
+
+
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    End of Detailed Report for timing paths 
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+4.1.4  Setup path details for constraint: set_output_delay -clock [get_clocks c_clk24M] -max 20 [get_ports BLU]
+----------------------------------------------------------------------
+1 endpoints scored, 0 timing errors detected.
+
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    Detailed Report for timing paths 
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+ ++++Path 1  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Path Begin       : U1/blu_pwm/Q
+Path End         : BLU
+Source Clock     : c_clk24M
+Destination Clock: c_clk24M
+Logic Level      : 2
+Delay Ratio      : 59.8% (route), 40.2% (logic)
+Clock Skew       : -5.510 ns
+Setup Constraint : 41.666 ns 
+Path Slack       : 7.512 ns  (Passed)
+
+  Destination Clock Arrival Time (c_clk24M:R#2)    41.666
++ Master Clock Source Latency                       0.000
+- Destination Clock Uncertainty                     0.000
++ Destination Clock Path Delay                      0.660
+- Output Delay                                     20.000
+-----------------------------------------------   -------
+End-of-path required time( ns )                    22.326
+
+  Source Clock Arrival Time (c_clk24M:R#1)    0.000
++ Master Clock Source Latency                 0.000
++ Source Clock Path Delay                     6.170
++ Data Path Delay                             8.644
+------------------------------------------   ------
+End-of-path arrival time( ns )               14.814
+
+ 
+Source Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+Data path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+U1/blu_pwm/CK->U1/blu_pwm/Q               SLICE_R16C10D   CLK_TO_Q1_DELAY       1.391         7.561  2       
+BLU_c                                                     NET DELAY             5.165        12.726  1       
+BLU_pad.bb_inst/I->BLU_pad.bb_inst/B      PIO_3           PADDO_TO_IOPAD_DELAY  2.088        14.814  1       
+BLU                                                       NET DELAY             0.000        14.814  1       
+
+
+Destination Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+
+
+
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    End of Detailed Report for timing paths 
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+4.1.5  Setup path details for constraint: set_output_delay -clock [get_clocks c_clk24M] -max 20 [get_ports GRN]
+----------------------------------------------------------------------
+1 endpoints scored, 0 timing errors detected.
+
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    Detailed Report for timing paths 
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+ ++++Path 1  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Path Begin       : U1/grn_pwm/Q
+Path End         : GRN
+Source Clock     : c_clk24M
+Destination Clock: c_clk24M
+Logic Level      : 2
+Delay Ratio      : 62.1% (route), 37.9% (logic)
+Clock Skew       : -5.510 ns
+Setup Constraint : 41.666 ns 
+Path Slack       : 6.982 ns  (Passed)
+
+  Destination Clock Arrival Time (c_clk24M:R#2)    41.666
++ Master Clock Source Latency                       0.000
+- Destination Clock Uncertainty                     0.000
++ Destination Clock Path Delay                      0.660
+- Output Delay                                     20.000
+-----------------------------------------------   -------
+End-of-path required time( ns )                    22.326
+
+  Source Clock Arrival Time (c_clk24M:R#1)    0.000
++ Master Clock Source Latency                 0.000
++ Source Clock Path Delay                     6.170
++ Data Path Delay                             9.174
+------------------------------------------   ------
+End-of-path arrival time( ns )               15.344
+
+ 
+Source Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+U1/clk24M                                                 NET DELAY             5.510         6.170  1       
+
+
+Data path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+U1/grn_pwm/CK->U1/grn_pwm/Q               SLICE_R18C12B   CLK_TO_Q1_DELAY       1.391         7.561  2       
+GRN_c                                                     NET DELAY             5.695        13.256  1       
+GRN_pad.bb_inst/I->GRN_pad.bb_inst/B      PIO_48          PADDO_TO_IOPAD_DELAY  2.088        15.344  1       
+GRN                                                       NET DELAY             0.000        15.344  1       
+
+
+Destination Clock Path
+Name                                      Cell/Site Name  Delay Name            Delay  Arrival Time  Fanout  
+----------------------------------------  --------------  --------------------  -----  ------------  ------  
+clk12M                                    led_top         CLOCK LATENCY         0.000         0.000  1       
+clk12M                                                    NET DELAY             0.000         0.000  1       
+clk12M_pad.bb_inst/B->clk12M_pad.bb_inst/O
+                                          PIO_35          IOPAD_TO_PADDI_DELAY  0.510         0.510  1       
+clk12M_c                                                  NET DELAY             0.000         0.510  1       
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL
+                                          PLL_PLL_R13C32                        0.000         0.510  121     
+U1/__/lscc_pll_inst/u_PLL_B/REFERENCECLK->U1/__/lscc_pll_inst/u_PLL_B/OUTGLOBAL (TOTAL_ADJUSTMENTS)
+                                          PLL_PLL_R13C32                        0.150         0.660  121     
+
+
+
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    End of Detailed Report for timing paths 
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+4.1.6  Setup path details for constraint: set_output_delay -clock [get_clocks c_clk24M] -min 1 [get_ports RED]
+----------------------------------------------------------------------
+0 endpoints scored, 0 timing errors detected.
+
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    Detailed Report for timing paths 
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    End of Detailed Report for timing paths 
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+4.1.7  Setup path details for constraint: set_output_delay -clock [get_clocks c_clk24M] -min 1 [get_ports BLU]
+----------------------------------------------------------------------
+0 endpoints scored, 0 timing errors detected.
+
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    Detailed Report for timing paths 
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    End of Detailed Report for timing paths 
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+4.1.8  Setup path details for constraint: set_output_delay -clock [get_clocks c_clk24M] -min 1 [get_ports GRN]
+----------------------------------------------------------------------
+0 endpoints scored, 0 timing errors detected.
+
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    Detailed Report for timing paths 
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    End of Detailed Report for timing paths 
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+4.2  Hold Report Not Requested
+================================
+

@@ -1,0 +1,16 @@
+POSTSYN: Post Synthesis Process Radiant Software (64-bit) 1.1.0.165.1
+Command Line: postsyn -w -a ice40tp -p iCE40UP5K -t SG48 -sp 6 -ldc ./source/impl_1/timing_constraints.ldc -o led_top.postsyn.udb ./outputs/led_top.impl.vm 
+   Architecture:     ice40tp
+   Device:           iCE40UP5K
+   Package:          SG48
+   Performance:      6
+Reading input file './outputs/led_top.impl.vm' ...
+Reading constraint file './source/impl_1/timing_constraints.ldc' ...
+Removing unused logic...
+Starting design annotation....
+WARNING - The preferred point for defining clocks is top level ports and driver pins. Pad delays will not be taken into consideration if clocks are defined on nets.
+Writing output file 'led_top.postsyn.udb'.
+POSTSYN finished successfully.
+Total CPU Time: 0 secs 
+Total REAL Time: 0 secs 
+Peak Memory Usage: 158 MB

@@ -1,0 +1,32 @@
+----------------------------------------------------------------------
+Report for cell LED_control.TECH
+Register bits:  238 of 5280 (4.508%)
+I/O cells:      8
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                               CCU2        86          100.0
+                            FD1P3XZ       238          100.0
+                                 IB         5          100.0
+                               LUT4       472          100.0
+                                 OB         3          100.0
+                              PLL_B         1          100.0
+SUB MODULES
+                            pll_24M         1
+pll_24M_ipgen_lscc_pll(DIVR="0",DIVF="63",DIVQ="5",FILTER_RANGE="1",PLLOUT_SELECT_PORTA="GENCLK",PLLOUT_SELECT_PORTB="GENCLK",FREQUENCY_PIN_REFERENCECLK="12.000000")         1
+                              TOTAL       807
+----------------------------------------------------------------------
+Report for cell pll_24M.v1
+Instance Path : __
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                              PLL_B         1          100.0
+SUB MODULES
+pll_24M_ipgen_lscc_pll(DIVR="0",DIVF="63",DIVQ="5",FILTER_RANGE="1",PLLOUT_SELECT_PORTA="GENCLK",PLLOUT_SELECT_PORTB="GENCLK",FREQUENCY_PIN_REFERENCECLK="12.000000")         1
+                              TOTAL         2
+----------------------------------------------------------------------
+Report for cell pll_24M_ipgen_lscc_pll(DIVR="0",DIVF="63",DIVQ="5",FILTER_RANGE="1",PLLOUT_SELECT_PORTA="GENCLK",PLLOUT_SELECT_PORTB="GENCLK",FREQUENCY_PIN_REFERENCECLK="12.000000").v1
+Instance Path : __.lscc_pll_inst
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                              PLL_B         1          100.0
+                              TOTAL         1
