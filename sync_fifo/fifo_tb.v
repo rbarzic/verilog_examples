@@ -32,7 +32,8 @@ module testbench;
         .data_out(data_out)
     );
 
-    initial begin
+
+      initial begin
         //initialize inputs
     
     clk = 1;       // initial value of clock
@@ -40,14 +41,13 @@ module testbench;
      #5  rst = 1;    // Assert the reset
      #10  rst = 0;   // De-assert the reset
      #10  wr_cs = 1;  // write chip select
-     #10  rd_cs = 0;  // read chip select
+     #10  rd_cs = 1;  // read chip select
      #10  rd_en = 0;  // read enable
      #10  data_in = 7;  // input datae
      #10  wr_en = 1;  // write enable
      #10  data_in = 9;
      #10  wr_en = 0;
-     #15  rd_en = 1;
-     #15  rd_cs = 1;
+     #10  rd_en = 1;
      #30  $finish;      // Terminate simulation
   end
        
