@@ -19,7 +19,7 @@ full       // FIFO full
  
 // FIFO constants
 parameter DATA_WIDTH = 8;
-parameter ADDR_WIDTH = 8;
+parameter ADDR_WIDTH = 4; //8;
 parameter RAM_DEPTH = (1 << ADDR_WIDTH);
 // Port Declarations
 input clk ;
@@ -36,7 +36,7 @@ output [DATA_WIDTH-1:0] data_out ;
 //-----------Internal variables-------------------
 reg [ADDR_WIDTH-1:0] wr_pointer;
 reg [ADDR_WIDTH-1:0] rd_pointer;
-reg [ADDR_WIDTH :0] status_cnt;
+reg [ADDR_WIDTH-1 :0] status_cnt;
 reg [DATA_WIDTH-1:0] data_out ;
 wire [DATA_WIDTH-1:0] data_ram ;
 
