@@ -18,7 +18,7 @@ oe_1        // Output Enable
 ); 
 
 parameter DATA_WIDTH = 8 ;
-parameter ADDR_WIDTH = 8 ;
+parameter ADDR_WIDTH = 4 ;
 parameter RAM_DEPTH = 1 << ADDR_WIDTH;
 
 //--------------Input Ports----------------------- 
@@ -26,7 +26,7 @@ input [ADDR_WIDTH-1:0] address_0 ;
 input cs_0 ;
 input we_0 ;
 input oe_0 ; 
-input [ADDR_WIDTH-1:0] address_1 ;
+input [ADDR_WIDTH-1:0] address_1 = 0;
 input cs_1 ;
 input we_1 ;
 input oe_1 ; 
