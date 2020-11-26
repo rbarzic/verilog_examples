@@ -37,9 +37,10 @@ module testbench;
 
     task do_read;
       begin
+      @(posedge clk) 
         rd_cs = 1;
         rd_en = 1;
-        #10;
+      @(posedge clk) 
         rd_cs = 0;
         rd_en = 0;
 
@@ -47,12 +48,14 @@ module testbench;
     endtask
 
     task do_write;
+      // input clock;
       input [7:0] data;
       begin
+      @(posedge clk) 
         data_in = data;
         wr_cs = 1;
         wr_en = 1;
-        #10;
+      @(posedge clk) 
         wr_cs = 0;
         wr_en = 0;
 
@@ -68,36 +71,14 @@ module testbench;
     wr_cs = 0;
     rd_en = 0;
     rd_cs = 0;
-     #5  rst = 1;    // Assert the reset
-     #10;  
+    #1 rst = 1;    // Assert the reset
+    #1;  
      rst = 0;   // De-assert the reset
      do_write(9);
      do_read();
 
-    //  #10  wr_cs = 1;  // write chip select
-    //  #10  rd_cs = 0;  // read chip select
-    //  #10  rd_en = 0;  // read enable
-    //  #10  data_in = 1;  // input datae
-    //  #10  wr_en = 1;  // write enable
-    //  #10  data_in = 2;
-    //  #10  data_in = 3;
-    //  #10  data_in = 4;
-    //  #10  data_in = 5;
-    //  #10  data_in = 6;
-    //  #10  data_in = 7;
-    //  #10  data_in = 8;
-    //  #10  data_in = 9;
-    //  #10  data_in = 10;
-    //  #10  data_in = 11;
-    //  #10  data_in = 12;
-    //  #10  data_in = 13;
-    //  #10  data_in = 14;
-    //  #10  data_in = 15;
-    //  #10  wr_en = 0;
-    //  #15  rd_en = 1;
-    //  #15  rd_cs = 1;  
-
-     #50  $finish;      // Terminate simulation
+   
+     #200  $finish;      // Terminate simulation
   end
        
 
@@ -106,7 +87,7 @@ module testbench;
 
 
        always begin
-            #5 clk = ~clk;
+            #10 clk = ~clk;
         end
 
           // Dump all nets to a vcd file called tb.vcd
