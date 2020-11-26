@@ -75,6 +75,7 @@ module testbench;
     #1;  
      rst = 0;   // De-assert the reset
      do_write(9);
+     do_write(11);
      do_read();
 
    
