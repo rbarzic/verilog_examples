@@ -30,7 +30,7 @@ async def fifo_read(dut):
     # don't forget .value here
     # we read the value *before* the side effect of the
     # rising edge of the clock
-    result = dut.data_out.value
+    result = dut.data_out #.value
     await Timer(2 * ns)
     dut.rd_en <= 0
     dut.rd_cs <= 0
@@ -68,7 +68,7 @@ async def test_simple(dut):
     
     await Timer(CLK_PERIOD)
 
-    wdata = 0xCAFEBABE
+    wdata = 0xCA #FEBABE
     await fifo_write(dut, wdata=wdata)
 
 
