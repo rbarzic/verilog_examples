@@ -1,0 +1,34 @@
+---------------------------------------------------
+Report for cell led_top
+   Instance path: led_top
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  LUT4	        648        100.0
+                                 IOBUF	         11        100.0
+                                PFUREG	        235        100.0
+SUB MODULES
+                                  cell	      count    LUT4 Usage(%)
+      LED_control(BreatheRamp=4'b0110)	          1        84.1
+---------------------------------------------------
+Report for cell LED_control(BreatheRamp=4'b0110)
+   Instance path: led_top/U1
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  LUT4	        545        84.1
+                                PFUREG	        235        100.0
+SUB MODULES
+                                  cell	      count    LUT4 Usage(%)
+                               pll_24M	          1         0.0
+---------------------------------------------------
+Report for cell pll_24M
+   Instance path: led_top/U1/__
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+SUB MODULES
+                                  cell	      count    LUT4 Usage(%)
+pll_24M_ipgen_lscc_pll(DIVR="0",DIVF="63",DIVQ="5",FILTER_RANGE="1",PLLOUT_SELECT_PORTA="GENCLK",PLLOUT_SELECT_PORTB="GENCLK",FREQUENCY_PIN_REFERENCECLK="12.000000")	          1         0.0
+---------------------------------------------------
+Report for cell pll_24M_ipgen_lscc_pll(DIVR="0",DIVF="63",DIVQ="5",FILTER_RANGE="1",PLLOUT_SELECT_PORTA="GENCLK",PLLOUT_SELECT_PORTB="GENCLK",FREQUENCY_PIN_REFERENCECLK="12.000000")
+   Instance path: led_top/U1/__/lscc_pll_inst
+                     Cell usage:
+                                  cell	      count    Res Usage(%)

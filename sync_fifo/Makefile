@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+IP_NAME_LC := sync_fifo
 comp:
 	iverilog -o tb_aram.vpp ram_dp_ar_aw.v syn_fifo.v fifo_tb.v
 
@@ -15,6 +17,7 @@ clean:
 	rm *.vpp *.vcd
 
 
+<<<<<<< HEAD
 # TOP:=$(shell cd ../..; pwd)
 
 # TOPLEVEL_LANG :=verilog
@@ -29,3 +32,17 @@ clean:
 
 # #include $(shell cocotb-config --makefiles)/Makefile.inc
 # include $(shell cocotb-config --makefiles)/Makefile.sim
+=======
+
+mkvenv:
+	. `which virtualenvwrapper.sh` && mkvirtualenv -p python3 $(IP_NAME_LC) && workon $(IP_NAME_LC)
+
+freeze:
+	pip freeze > requirements.txt
+
+install_env:
+	pip install -r requirements.txt
+
+check-syntax:
+	TOP=$(TOP) iverilog -t null -o tb  -c sim/verilog/vlist_tb.txt
+>>>>>>> origin/work-ronan

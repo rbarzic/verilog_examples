@@ -1,0 +1,5 @@
+#Start recording tcl command: 4/30/2019 07:50:34
+#Project Location: /home/ronan/perso/github/verilog_examples/ledtest_ice40up5k; Project name: ledtest_ice40up5k
+prj_open "/home/ronan/perso/github/verilog_examples/ledtest_ice40up5k/ledtest_ice40up5k.rdf"
+prj_close
+#Stop recording: 4/30/2019 07:52:54

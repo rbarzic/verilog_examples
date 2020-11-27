@@ -1,0 +1,207 @@
+         Lattice Mapping Report File for Design Module 'led_top.map'
+
+Target Vendor:        LATTICE
+Target Device:        iCE40UP5KSG48
+Target Performance:   High-Performance_1.2V
+
+Mapper:    version Radiant Software (64-bit) 1.1.0.165.1
+Mapped on: Tue Apr 30 13:13:35 2019
+
+Design Information
+------------------
+
+Command line:   map led_top.postsyn.udb ./source/impl_1/design_constraints.pdc
+     -o led_top.map.udb
+
+Design Summary
+--------------
+
+   Number of slice registers: 235 out of  5280 (4%)
+   Number of I/O registers:      0 out of   117 (0%)
+   Number of LUT4s:           648 out of  5280 (12%)
+      Number of logic LUT4s:             471
+      Number of inserted feedthru LUT4s:   7
+      Number of ripple logic:             85 (170 LUT4s)
+   Number of IO sites used:   11 out of 39 (28%)
+      Number of IO sites used for general PIOs: 8
+      Number of IO sites used for I3Cs: 0 out of 2 (0%)
+      Number of IO sites used for PIOs+I3Cs: 8 out of 36 (22%)
+      (note: If I3C is not used, its site can be used as general PIO)
+      Number of IO sites used for OD+RGB IO buffers: 3 out of 3 (100%)
+   Number of DSPs:             0 out of 8 (0%)
+   Number of I2Cs:             0 out of 2 (0%)
+   Number of High Speed OSCs:  0 out of 1 (0%)
+   Number of Low Speed OSCs:   0 out of 1 (0%)
+   Number of RGB PWM:          0 out of 1 (0%)
+   Number of RGB Drivers:      1 out of 1 (100%)
+   Number of SCL FILTERs:      0 out of 2 (0%)
+   Number of SRAMs:            0 out of 4 (0%)
+   Number of WARMBOOTs:        0 out of 1 (0%)
+   Number of SPIs:             0 out of 2 (0%)
+   Number of EBRs:             0 out of 30 (0%)
+   Number of PLLs:             1 out of 1 (100%)
+   Number of Clocks:  2
+      Net U1/clk24M: 235 loads, 235 rising, 0 falling (Driver: Pin
+     U1.__.lscc_pll_inst.u_PLL_B/OUTGLOBAL)
+      Net clk12M_c: 1 loads, 1 rising, 0 falling (Driver: Port clk12M)
+   Number of Clock Enables:  3
+      Net VCC_net: 2 loads, 0 SLICEs
+      Net U1/n1975: 28 loads, 28 SLICEs
+      Net U1/n1977: 28 loads, 28 SLICEs
+   Number of LSRs:  1
+      Pin rst: 235 loads, 235 SLICEs (Net: rst_c)
+   Top 10 highest fanout non-clock nets:
+      Net rst_c: 236 loads
+      Net U1/n202[2]: 146 loads
+      Net U1/n202[3]: 89 loads
+      Net U1/n626: 88 loads
+      Net U1/n202[1]: 84 loads
+      Net U1/n202[0]: 58 loads
+      Net U1/n1979: 56 loads
+      Net U1/off_max_cnt[24]: 35 loads
+      Net U1/n1975: 28 loads
+
+                                    Page 1
+
+
+
+
+
+Design Summary (cont)
+---------------------
+      Net U1/off_max_cnt[27]: 28 loads
+
+
+
+
+   Number of warnings:  12
+   Number of errors:    0
+
+Design Errors/Warnings
+----------------------
+
+WARNING - map: No port matched 'JTAG_TCK'.
+WARNING - map: Can't resolve object 'JTAG_TCK' in constraint 'ldc_set_location
+     -site {20} [get_ports JTAG_TCK]'.
+WARNING - map: No port matched 'JTAG_TMS'.
+WARNING - map: Can't resolve object 'JTAG_TMS' in constraint 'ldc_set_location
+     -site {13} [get_ports JTAG_TMS]'.
+WARNING - map: No port matched 'JTAG_TDI'.
+WARNING - map: Can't resolve object 'JTAG_TDI' in constraint 'ldc_set_location
+     -site {19} [get_ports JTAG_TDI]'.
+WARNING - map: No port matched 'JTAG_TDO'.
+WARNING - map: Can't resolve object 'JTAG_TDO' in constraint 'ldc_set_location
+     -site {21} [get_ports JTAG_TDO]'.
+WARNING - map: Remove invalid constraint 'ldc_set_location -site {20} [get_ports
+     JTAG_TCK]'.
+WARNING - map: Remove invalid constraint 'ldc_set_location -site {13} [get_ports
+     JTAG_TMS]'.
+WARNING - map: Remove invalid constraint 'ldc_set_location -site {19} [get_ports
+     JTAG_TDI]'.
+WARNING - map: Remove invalid constraint 'ldc_set_location -site {21} [get_ports
+     JTAG_TDO]'.
+
+IO (PIO) Attributes
+-------------------
+
++---------------------+-----------+-----------+-------+-------+-----------+
+| IO Name             | Direction | Levelmode |  IO   |  IO   | Special   |
+|                     |           |  IO_TYPE  |  REG  |  DDR  | IO Buffer |
++---------------------+-----------+-----------+-------+-------+-----------+
+| BLUn                | OUTPUT    | NA        |       |       | RGB       |
++---------------------+-----------+-----------+-------+-------+-----------+
+| GRNn                | OUTPUT    | NA        |       |       | RGB       |
++---------------------+-----------+-----------+-------+-------+-----------+
+| REDn                | OUTPUT    | NA        |       |       | RGB       |
++---------------------+-----------+-----------+-------+-------+-----------+
+| RGB_Blink_En        | INPUT     | LVCMOS33  |       |       |           |
++---------------------+-----------+-----------+-------+-------+-----------+
+| color_sel[0]        | INPUT     | LVCMOS33  |       |       |           |
++---------------------+-----------+-----------+-------+-------+-----------+
+| color_sel[1]        | INPUT     | LVCMOS33  |       |       |           |
++---------------------+-----------+-----------+-------+-------+-----------+
+| RED                 | OUTPUT    | LVCMOS33  |       |       |           |
++---------------------+-----------+-----------+-------+-------+-----------+
+| BLU                 | OUTPUT    | LVCMOS33  |       |       |           |
++---------------------+-----------+-----------+-------+-------+-----------+
+| GRN                 | OUTPUT    | LVCMOS33  |       |       |           |
++---------------------+-----------+-----------+-------+-------+-----------+
+
+                                    Page 2
+
+
+
+
+
+IO (PIO) Attributes (cont)
+--------------------------
+| rst                 | INPUT     | LVCMOS33  |       |       |           |
++---------------------+-----------+-----------+-------+-------+-----------+
+| clk12M              | INPUT     | LVCMOS33  |       |       |           |
++---------------------+-----------+-----------+-------+-------+-----------+
+
+PLL/DLL Summary
+---------------
+
+PLL 1:                                 Pin/Node Value
+  PLL Instance Name:                            U1.__.lscc_pll_inst.u_PLL_B
+  PLL Type:                                     PLL_B
+  Input Reference Clock:               PIN      clk12M_c
+  Output Clock(CoreA):                          NONE
+  Output Clock(GlobalA):               NODE     U1/clk24M
+  Output Clock(CoreB):                          NONE
+  Output Clock(GlobalB):                        NONE
+  Feedback input:                      NODE     U1/__/lscc_pll_inst/feedback_w
+  Internal Feedback output:            NODE     U1/__/lscc_pll_inst/feedback_w
+  BYPASS signal:                                GND
+  LATCH signal:                                 GND
+  Lock Signal:                                  NONE
+  Input Clock Frequency (MHz):                  12.0000
+  Reference Divider:                            0
+  Feedback Divider:                             63
+  VCO Divider:                                  5
+  ENABLE_ICEGATE_PORTA:                         0
+  ENABLE_ICEGATE_PORTB:                         0
+  PLLOUT_SELECT_PORTA:                          GENCLK
+  PLLOUT_SELECT_PORTB:                          GENCLK
+  SHIFTREG_DIV_MODE:                            0
+  DELAY_ADJUSTMENT_MODE_RELATIVE:               FIXED
+  FDA_RELATIVE:                                 0
+  FEEDBACK_PATH:                                SIMPLE
+  DELAY_ADJUSTMENT_MODE_FEEDBACK:               FIXED
+  FDA_FEEDBACK:                                 0
+  FILTER_RANGE:                                 1
+  EXTERNAL_DIVIDE_FACTOR:                       NONE
+  TEST Mode:                                    0
+
+ASIC Components
+---------------
+
+Instance Name: U2_RGB_CORE_inst
+         Type: RGBA_DRV
+Instance Name: U1.__.lscc_pll_inst.u_PLL_B
+         Type: PLL
+
+Run Time and Memory Usage
+-------------------------
+
+   Total CPU Time: 0 secs
+   Total REAL Time: 0 secs
+   Peak Memory Usage: 209 MB
+
+
+
+
+
+                                    Page 3
+
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995
+     AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent
+     Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems
+     All rights reserved.
+Copyright (c) 2002-2019 Lattice Semiconductor
+     Corporation,  All rights reserved.
