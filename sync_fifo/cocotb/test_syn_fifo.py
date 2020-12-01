@@ -21,7 +21,8 @@ async def rst(m):
 
 @cocotb.coroutine
 async def fifo_read(dut):
-
+    if dut.empty == 1:
+        raise TestFailure(f"The RAM is empty. No data to be read")
     # A little delay tomake the waveform more pleasant to look at
     await Timer(2 * ns)
     dut.rd_en <= 1
@@ -39,7 +40,8 @@ async def fifo_read(dut):
 
 @cocotb.coroutine
 async def fifo_read_multi(dut, N):
-
+    if dut.empty == 1:
+        raise TestFailure(f"The RAM is empty. No data to be read")
     # A little delay tomake the waveform more pleasant to look at
     await Timer(2 * ns)
     dut.rd_en <= 1
@@ -61,6 +63,8 @@ async def fifo_read_multi(dut, N):
 
 @cocotb.coroutine
 async def fifo_write(dut, wdata):
+    if dut.full == 1:
+        raise TestFailure(f"The RAM is full. No new data can be added, Full flag = {hex(r)}")
     await Timer(5 * ns)
     dut.wr_en <= 1
     dut.wr_cs <= 1
@@ -72,16 +76,19 @@ async def fifo_write(dut, wdata):
 
 @cocotb.coroutine
 async def fifo_write_multi(dut, wdata,N):
+    # if dut.full == 1:
+    #     raise TestFailure(f"The RAM is full. No new data can be added, Full flag = {hex(r)}")
     await Timer(5 * ns)
     dut.wr_en <= 1
     dut.wr_cs <= 1
     for i in range(N):
+        if dut.full == 1:
+            raise TestFailure(f"The RAM is full. No new data can be added, Full flag = {hex(r)}")
         dut.data_in = (wdata >> (i*8)) &0xFF
         await RisingEdge(dut.clk)
     await Timer(2 * ns)
     dut.wr_en <= 0
     dut.wr_cs <= 0
-
 
 
 
@@ -156,6 +163,43 @@ async def test_Multi(dut):
     r = int(rdata)
     if r != wdata:
         raise TestFailure(f"Error reading back FIFO : read {hex(r)}  write : {hex(wdata)}")
+
+@cocotb.test()
+async def test_empty(dut):
+    """ Test to read from an empty RAM"""
+    dut.rd_en = 0
+    dut.wr_en = 0
+    dut.rd_cs = 0
+    dut.wr_cs = 0
+    
+    cocotb.fork(Clock(dut.clk, CLK_PERIOD).start())
+    await rst(dut)
+    
+    await Timer(CLK_PERIOD)
+    
+    rdata=  await fifo_read(dut)
+
+    dut._log.info(f"-I- rdata = {rdata}")
+
+@cocotb.test()
+async def test_full(dut):
+    """ Test to write to a full RAM"""
+    dut.rd_en = 0
+    dut.wr_en = 0
+    dut.rd_cs = 0
+    dut.wr_cs = 0
+
+    cocotb.fork(Clock(dut.clk, CLK_PERIOD).start())
+    await rst(dut)
+
+    await Timer(CLK_PERIOD)
+
+    wdata = 0xCD #AEF789BE75962878 # The written data
+    #n = 9                      # The number of write and read commands
+
+    for i in range (16):
+        await fifo_write(dut, wdata=wdata)
+    # await fifo_write(dut, wdata=wdata)
 
 # Local Variables:
 # eval: (blacken-mode)
