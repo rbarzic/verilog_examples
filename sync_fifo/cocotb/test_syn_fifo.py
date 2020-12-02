@@ -3,6 +3,8 @@ from cocotb.clock import Clock
 from cocotb.triggers import Timer, RisingEdge, FallingEdge
 from cocotb.result import TestError, TestFailure, ReturnValue
 
+import random # to generate random values of data
+
 ns = 1000
 CLK_PERIOD = 20 * ns
 
@@ -47,11 +49,12 @@ async def fifo_read_multi(dut, N):
     dut.rd_en <= 1
     dut.rd_cs <= 1
     result = 0x00
+    result = [0]*N
     await RisingEdge(dut.clk)
     for i in range(N):
         await RisingEdge(dut.clk)
         r = int(dut.data_out)
-        result = result + (r << i*8)
+        result [i] = r
         #print(hex(r))
 
     await Timer(2 * ns)
@@ -64,7 +67,7 @@ async def fifo_read_multi(dut, N):
 @cocotb.coroutine
 async def fifo_write(dut, wdata):
     if dut.full == 1:
-        raise TestFailure(f"The RAM is full. No new data can be added, Full flag = {hex(r)}")
+        raise TestFailure("The RAM is full. No new data can be added")
     await Timer(5 * ns)
     dut.wr_en <= 1
     dut.wr_cs <= 1
@@ -76,15 +79,13 @@ async def fifo_write(dut, wdata):
 
 @cocotb.coroutine
 async def fifo_write_multi(dut, wdata,N):
-    # if dut.full == 1:
-    #     raise TestFailure(f"The RAM is full. No new data can be added, Full flag = {hex(r)}")
     await Timer(5 * ns)
     dut.wr_en <= 1
     dut.wr_cs <= 1
     for i in range(N):
         if dut.full == 1:
-            raise TestFailure(f"The RAM is full. No new data can be added, Full flag = {hex(r)}")
-        dut.data_in = (wdata >> (i*8)) &0xFF
+            raise TestFailure("The RAM is full. No new data can be added")
+        dut.data_in = wdata[i] #(wdata >> (i*8)) &0xFF
         await RisingEdge(dut.clk)
     await Timer(2 * ns)
     dut.wr_en <= 0
@@ -143,7 +144,7 @@ async def test_Multi(dut):
     # wdata = 0xCAFEBABE
     # n = 4  
 
-    wdata = 0xCDAEF789BE # The written data
+    wdata = [0xCD, 0xAE, 0xF7, 0x89, 0xBE] # The written data
     n = 5                # The number of write and read commands
 
 
@@ -157,12 +158,12 @@ async def test_Multi(dut):
     dut._log.info(f"-I- rdata = {rdata}")
 
     # just for visual debug in the terminal
-    rdata_hex = hex(int(rdata))
+    # rdata_hex = hex(int(rdata))
     
 
-    r = int(rdata)
-    if r != wdata:
-        raise TestFailure(f"Error reading back FIFO : read {hex(r)}  write : {hex(wdata)}")
+    # r = int(rdata)
+    if rdata != wdata:
+        raise TestFailure(f"Error reading back FIFO : read {r}  write : {wdata}")
 
 @cocotb.test()
 async def test_empty(dut):
@@ -193,13 +194,19 @@ async def test_full(dut):
     await rst(dut)
 
     await Timer(CLK_PERIOD)
+    
+    n = 15    # The number of write and read commands
 
-    wdata = 0xCD #AEF789BE75962878 # The written data
-    #n = 9                      # The number of write and read commands
+    wdata = [0]*n
 
-    for i in range (16):
-        await fifo_write(dut, wdata=wdata)
-    # await fifo_write(dut, wdata=wdata)
+    # generating random messages to be written
+    for i in range(n):
+        wdata[i] = random.getrandbits(8)
+
+    # for i in range (n):
+    #     await fifo_write(dut, wdata=wdata[i])
+
+    await fifo_write_multi(dut, wdata=wdata, N=n)
 
 # Local Variables:
 # eval: (blacken-mode)
