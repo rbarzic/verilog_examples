@@ -41,20 +41,22 @@ async def fifo_read(dut):
     return result
 
 @cocotb.coroutine
-async def fifo_read_multi(dut, N):
+async def fifo_read_multi(dut):
     if dut.empty == 1:
         raise TestFailure(f"The RAM is empty. No data to be read")
     # A little delay tomake the waveform more pleasant to look at
     await Timer(2 * ns)
     dut.rd_en <= 1
     dut.rd_cs <= 1
-    result = 0x00
+    N = len(dut.data_out)
     result = [0]*N
     await RisingEdge(dut.clk)
     for i in range(N):
         await RisingEdge(dut.clk)
-        r = int(dut.data_out)
+        # if dut.data_out != None:
+        r = dut.data_out
         result [i] = r
+        print (result)
         #print(hex(r))
 
     await Timer(2 * ns)
@@ -78,8 +80,9 @@ async def fifo_write(dut, wdata):
     dut.wr_cs <= 0
 
 @cocotb.coroutine
-async def fifo_write_multi(dut, wdata,N):
+async def fifo_write_multi(dut, wdata):
     await Timer(5 * ns)
+    N = len(wdata)
     dut.wr_en <= 1
     dut.wr_cs <= 1
     for i in range(N):
@@ -127,7 +130,6 @@ async def test_simple(dut):
     if r != wdata:
         raise TestFailure(f"Error reading back FIFO : read {hex(r)}  write : {hex(wdata)}")
 
-
 @cocotb.test()
 async def test_Multi(dut):
     """ A test for multiple write and read operations """
@@ -145,29 +147,28 @@ async def test_Multi(dut):
     # n = 4  
 
     wdata = [0xCD, 0xAE, 0xF7, 0x89, 0xBE] # The written data
-    n = 5                # The number of write and read commands
 
 
-    await fifo_write_multi(dut, wdata=wdata,N=n)
+    await fifo_write_multi(dut, wdata=wdata)
 
     await Timer(CLK_PERIOD)
     await Timer(CLK_PERIOD)
 
-    rdata=  await fifo_read_multi(dut, N=n)
-
+    rdata=  await fifo_read_multi(dut)
+    print(rdata)
     dut._log.info(f"-I- rdata = {rdata}")
 
     # just for visual debug in the terminal
     # rdata_hex = hex(int(rdata))
+    # print(rdata_hex)
     
-
     # r = int(rdata)
     if rdata != wdata:
-        raise TestFailure(f"Error reading back FIFO : read {r}  write : {wdata}")
+        raise TestFailure(f"Error reading back FIFO : read {rdata}  write : {wdata}")
 
 @cocotb.test()
 async def test_empty(dut):
-    """ Test to read from an empty RAM"""
+    """ Test the empty flag of the fifo"""
     dut.rd_en = 0
     dut.wr_en = 0
     dut.rd_cs = 0
@@ -178,13 +179,15 @@ async def test_empty(dut):
     
     await Timer(CLK_PERIOD)
     
-    rdata=  await fifo_read(dut)
+    is_empty = dut.empty
 
-    dut._log.info(f"-I- rdata = {rdata}")
+    if is_empty != 1:
+        raise TestFailure(f"Error reading back FIFO : read {r}  write : {wdata}")
+
 
 @cocotb.test()
 async def test_full(dut):
-    """ Test to write to a full RAM"""
+    """ Test the full flage of the fifo"""
     dut.rd_en = 0
     dut.wr_en = 0
     dut.rd_cs = 0
@@ -206,7 +209,13 @@ async def test_full(dut):
     # for i in range (n):
     #     await fifo_write(dut, wdata=wdata[i])
 
-    await fifo_write_multi(dut, wdata=wdata, N=n)
+    await fifo_write_multi(dut, wdata=wdata)
+
+    is_full = dut.full
+
+    if is_full != 1:
+        raise TestFailure(f"Error reading back FIFO : read {r}  write : {wdata}")
+
 
 # Local Variables:
 # eval: (blacken-mode)
