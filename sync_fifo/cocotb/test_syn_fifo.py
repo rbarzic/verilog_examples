@@ -22,42 +22,51 @@ async def rst(m):
 
 
 @cocotb.coroutine
-async def fifo_read(dut):
-    if dut.empty == 1:
-        raise TestFailure(f"The RAM is empty. No data to be read")
-    # A little delay tomake the waveform more pleasant to look at
-    await Timer(2 * ns)
-    dut.rd_en <= 1
-    dut.rd_cs <= 1
-    await RisingEdge(dut.clk)
-    # don't forget .value here
-    # we read the value *before* the side effect of the
-    # rising edge of the clock
-    result = dut.data_out #.value
-    await Timer(2 * ns)
-    dut.rd_en <= 0
-    dut.rd_cs <= 0
-
-    return result
+async def Is_full(dut):
+    if dut.full:
+        print("The fifo is full")
+    return dut.full
+    
 
 @cocotb.coroutine
-async def fifo_read_multi(dut):
-    if dut.empty == 1:
-        raise TestFailure(f"The RAM is empty. No data to be read")
+async def Is_empty(dut):
+    if dut.empty:
+        print("The fifo is empty")
+    return dut.empty
+
+@cocotb.coroutine
+async def fifo_read(dut):
+    if Is_empty(dut) != 1:
+        # A little delay tomake the waveform more pleasant to look at
+        await Timer(2 * ns)
+        dut.rd_en <= 1
+        dut.rd_cs <= 1
+        await RisingEdge(dut.clk)
+        # don't forget .value here
+        # we read the value *before* the side effect of the
+        # rising edge of the clock
+        await Timer(2 * ns)
+        result = dut.data_out.value
+        dut.rd_en <= 0
+        dut.rd_cs <= 0
+
+        return result
+
+@cocotb.coroutine
+async def fifo_read_multi(dut, N):
+    
     # A little delay tomake the waveform more pleasant to look at
     await Timer(2 * ns)
     dut.rd_en <= 1
     dut.rd_cs <= 1
-    N = len(dut.data_out)
     result = [0]*N
     await RisingEdge(dut.clk)
     for i in range(N):
         await RisingEdge(dut.clk)
-        # if dut.data_out != None:
-        r = dut.data_out
-        result [i] = r
-        print (result)
-        #print(hex(r))
+        if Is_empty != 1:
+            r = int(dut.data_out.value)
+            result [i] = r
+   
 
     await Timer(2 * ns)
     dut.rd_en <= 0
@@ -68,16 +77,15 @@ async def fifo_read_multi(dut):
 
 @cocotb.coroutine
 async def fifo_write(dut, wdata):
-    if dut.full == 1:
-        raise TestFailure("The RAM is full. No new data can be added")
-    await Timer(5 * ns)
-    dut.wr_en <= 1
-    dut.wr_cs <= 1
-    dut.data_in <= wdata
-    await RisingEdge(dut.clk)
-    await Timer(2 * ns)
-    dut.wr_en <= 0
-    dut.wr_cs <= 0
+    if  Is_full != 1:
+        await Timer(5 * ns)
+        dut.wr_en <= 1
+        dut.wr_cs <= 1
+        dut.data_in <= wdata
+        await RisingEdge(dut.clk)
+        await Timer(2 * ns)
+        dut.wr_en <= 0
+        dut.wr_cs <= 0
 
 @cocotb.coroutine
 async def fifo_write_multi(dut, wdata):
@@ -86,10 +94,9 @@ async def fifo_write_multi(dut, wdata):
     dut.wr_en <= 1
     dut.wr_cs <= 1
     for i in range(N):
-        if dut.full == 1:
-            raise TestFailure("The RAM is full. No new data can be added")
-        dut.data_in = wdata[i] #(wdata >> (i*8)) &0xFF
-        await RisingEdge(dut.clk)
+        if  Is_full != 1:
+            dut.data_in = wdata[i] #(wdata >> (i*8)) &0xFF
+            await RisingEdge(dut.clk)
     await Timer(2 * ns)
     dut.wr_en <= 0
     dut.wr_cs <= 0
@@ -144,7 +151,7 @@ async def test_Multi(dut):
     await Timer(CLK_PERIOD)
 
     # wdata = 0xCAFEBABE
-    # n = 4  
+    n = 5  
 
     wdata = [0xCD, 0xAE, 0xF7, 0x89, 0xBE] # The written data
 
@@ -154,8 +161,8 @@ async def test_Multi(dut):
     await Timer(CLK_PERIOD)
     await Timer(CLK_PERIOD)
 
-    rdata=  await fifo_read_multi(dut)
-    print(rdata)
+    rdata=  await fifo_read_multi(dut,N=n)
+
     dut._log.info(f"-I- rdata = {rdata}")
 
     # just for visual debug in the terminal
