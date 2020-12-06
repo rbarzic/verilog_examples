@@ -23,14 +23,14 @@ async def rst(m):
 
 @cocotb.coroutine
 async def Is_full(dut):
-    if dut.full:
+    if dut.full == 1:
         print("The fifo is full")
     return dut.full
     
 
 @cocotb.coroutine
 async def Is_empty(dut):
-    if dut.empty:
+    if dut.empty == 1:
         print("The fifo is empty")
     return dut.empty
 
@@ -63,8 +63,8 @@ async def fifo_read_multi(dut, N):
     result = []
     await RisingEdge(dut.clk)
     for i in range(N):
-        await RisingEdge(dut.clk)
-        if Is_empty != 1:
+        if dut.empty != 1:
+            await RisingEdge(dut.clk)
             r = int(dut.data_out.value)
             result.append(r)
     await Timer(2 * ns)
@@ -76,24 +76,26 @@ async def fifo_read_multi(dut, N):
 async def fifo_read_multi_clocks(dut, N):
     # A little delay tomake the waveform more pleasant to look at
     await Timer(2 * ns)
-    result = []
     dut.rd_en <= 1
     dut.rd_cs <= 1
+    result = []
     await RisingEdge(dut.clk)
+    #if dut.empty != 1:
     for i in range(N):
         cocotb.log.info(f"In read proc.")
-        dut.rd_en <= 1
-        dut.rd_cs <= 1
+        #if dut.empty != 1:
         delay = random.randint(1, 9)
         await RisingEdge(dut.clk)
-        if Is_empty != 1:
-            r = int(dut.data_out.value)
-            result.append(r)
-            dut.rd_en <= 0
-            dut.rd_cs <= 0
-            await ClockCycles(dut.clk, delay)
-            cocotb.log.info(f"Read: {r}.")
-            cocotb.log.info(f"Random number of cycles read delay {delay}.")
+        r = int(dut.data_out.value)
+        result.append(r)
+        dut.rd_en <= 0
+        dut.rd_cs <= 0
+        await ClockCycles(dut.clk, delay)
+        cocotb.log.info(f"Read: {r}.")
+        cocotb.log.info(f"Random number of cycles read delay {delay}.")
+        if dut.empty != 1:
+            dut.rd_en <= 1
+            dut.rd_cs <= 1
             #print(delay)
     await Timer(2 * ns)
     dut.rd_en <= 0
@@ -119,7 +121,7 @@ async def fifo_write_multi(dut, wdata):
     dut.wr_en <= 1
     dut.wr_cs <= 1
     for i in range(N):
-        if  Is_full != 1:
+        if  dut.full != 1:
             dut.data_in = wdata[i] #(wdata >> (i*8)) &0xFF
             await RisingEdge(dut.clk)
     await Timer(2 * ns)
@@ -137,7 +139,7 @@ async def fifo_write_multi_clock(dut, wdata):
         dut.wr_en <= 1
         dut.wr_cs <= 1
         delay = random.randint(1, 9)
-        if  Is_full != 1:
+        if  dut.full != 1:
             dut.data_in = wdata[i] #(wdata >> (i*8)) &0xFF
             await RisingEdge(dut.clk)
             dut.wr_en <= 0
@@ -234,10 +236,10 @@ async def test_empty(dut):
     
     await Timer(CLK_PERIOD)
     
-    is_empty = dut.empty
+    is_empty = await Is_empty(dut)
 
     if is_empty != 1:
-        raise TestFailure(f"Error reading back FIFO : read {r}  write : {wdata}")
+        raise TestFailure(f"Error: FIFO isn't empty")
 
 
 @cocotb.test()
@@ -254,22 +256,21 @@ async def test_full(dut):
     await Timer(CLK_PERIOD)
     
     n = 15    # The number of write and read commands
-
-    wdata = [0]*n
+    wdata = []
 
     # generating random messages to be written
     for i in range(n):
-        wdata[i] = random.getrandbits(8)
+        wdata.append(random.getrandbits(8))
 
     # for i in range (n):
     #     await fifo_write(dut, wdata=wdata[i])
 
     await fifo_write_multi(dut, wdata=wdata)
 
-    is_full = dut.full
+    is_full = await Is_full(dut)
 
     if is_full != 1:
-        raise TestFailure(f"Error reading back FIFO : read {r}  write : {wdata}")
+        raise TestFailure(f"Error: FIFO is not full")
 
 @cocotb.test()
 async def test_Multi_clocks(dut):
@@ -330,7 +331,6 @@ async def test_pharallel_operation(dut):
     reader = cocotb.fork(fifo_read_multi_clocks(dut,N=n))
     await Combine(writer, reader)
 
-    print(reader)
     # await ClockCycles(dut.clk, 100)
     # dut._log.info(f"-I- rdata = {rdata}")
 
