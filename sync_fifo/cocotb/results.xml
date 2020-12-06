@@ -1,10 +1,11 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1607253139" />
-    <testcase classname="test_syn_fifo" name="test_simple" ratio_time="43520.09545024664" sim_time_ns="122.001" time="0.002803325653076172" />
-    <testcase classname="test_syn_fifo" name="test_Multi_messages" ratio_time="99480.40542715778" sim_time_ns="302.001" time="0.0030357837677001953" />
-    <testcase classname="test_syn_fifo" name="test_empty" ratio_time="66053.68279685035" sim_time_ns="40.000999999999976" time="0.0006055831909179688" />
-    <testcase classname="test_syn_fifo" name="test_full" ratio_time="84479.16150200236" sim_time_ns="342.00100000000003" time="0.004048347473144531" />
-    <testcase classname="test_syn_fifo" name="test_Multi_clocks" ratio_time="127788.57556414927" sim_time_ns="1322.0010000000002" time="0.010345220565795898" />
+    <property name="random_seed" value="1607254434" />
+    <testcase classname="test_syn_fifo" name="test_simple" ratio_time="40750.91839643227" sim_time_ns="122.001" time="0.0029938220977783203" />
+    <testcase classname="test_syn_fifo" name="test_Multi_messages" ratio_time="99699.64599008263" sim_time_ns="302.001" time="0.0030291080474853516" />
+    <testcase classname="test_syn_fifo" name="test_empty" ratio_time="68480.1446138775" sim_time_ns="40.000999999999976" time="0.0005841255187988281" />
+    <testcase classname="test_syn_fifo" name="test_full" ratio_time="97788.27202290545" sim_time_ns="342.00100000000003" time="0.0034973621368408203" />
+    <testcase classname="test_syn_fifo" name="test_Multi_clocks" ratio_time="114749.0904078295" sim_time_ns="1462.0010000000002" time="0.012740850448608398" />
+    <testcase classname="test_syn_fifo" name="test_pharallel_operation" ratio_time="85985.03745773471" sim_time_ns="762.0009999999997" time="0.008862018585205078" />
   </testsuite>
 </testsuites>

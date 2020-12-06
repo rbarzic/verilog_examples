@@ -1,6 +1,6 @@
 import cocotb
 from cocotb.clock import Clock
-from cocotb.triggers import Timer, RisingEdge, FallingEdge, ClockCycles
+from cocotb.triggers import Timer, RisingEdge, FallingEdge, ClockCycles, Combine
 from cocotb.result import TestError, TestFailure, ReturnValue
 
 import random # to generate random values of data
@@ -81,6 +81,7 @@ async def fifo_read_multi_clocks(dut, N):
     dut.rd_cs <= 1
     await RisingEdge(dut.clk)
     for i in range(N):
+        cocotb.log.info(f"In read proc.")
         dut.rd_en <= 1
         dut.rd_cs <= 1
         delay = random.randint(1, 9)
@@ -91,7 +92,9 @@ async def fifo_read_multi_clocks(dut, N):
             dut.rd_en <= 0
             dut.rd_cs <= 0
             await ClockCycles(dut.clk, delay)
-            print(delay)
+            cocotb.log.info(f"Read: {r}.")
+            cocotb.log.info(f"Random number of cycles read delay {delay}.")
+            #print(delay)
     await Timer(2 * ns)
     dut.rd_en <= 0
     dut.rd_cs <= 0
@@ -130,6 +133,7 @@ async def fifo_write_multi_clock(dut, wdata):
     # dut.wr_en <= 1
     # dut.wr_cs <= 1
     for i in range(N):
+        cocotb.log.info(f"In write proc.")
         dut.wr_en <= 1
         dut.wr_cs <= 1
         delay = random.randint(1, 9)
@@ -139,7 +143,9 @@ async def fifo_write_multi_clock(dut, wdata):
             dut.wr_en <= 0
             dut.wr_cs <= 0
             await ClockCycles(dut.clk, delay)
-            print(delay)
+            cocotb.log.info(f"Write: {wdata[i]}.")
+            cocotb.log.info(f"Random number of cycles write delay {delay}.")
+            #print(delay)
 
     await Timer(2 * ns)
     dut.wr_en <= 0
@@ -300,6 +306,41 @@ async def test_Multi_clocks(dut):
     # r = int(rdata)
     if rdata != wdata:
         raise TestFailure(f"Error reading back FIFO : read {rdata}  write : {wdata}")
+
+@cocotb.test()
+async def test_pharallel_operation(dut):
+    """ A test for multiple write and read operations """
+    dut.rd_en = 0
+    dut.wr_en = 0
+    dut.rd_cs = 0
+    dut.wr_cs = 0
+    
+    cocotb.fork(Clock(dut.clk, CLK_PERIOD).start())
+    await rst(dut)
+    
+    await Timer(CLK_PERIOD)
+
+    # wdata = 0xCAFEBABE
+    n = 5  
+
+    wdata = [0xCD, 0xAE, 0xF7, 0x89, 0xBE] # The written data
+
+    cocotb.log.info(f"Test random read/write.")
+    writer = cocotb.fork( fifo_write_multi_clock(dut, wdata=wdata))
+    reader = cocotb.fork(fifo_read_multi_clocks(dut,N=n))
+    await Combine(writer, reader)
+
+    print(reader)
+    # await ClockCycles(dut.clk, 100)
+    # dut._log.info(f"-I- rdata = {rdata}")
+
+    # just for visual debug in the terminal
+    # rdata_hex = hex(int(rdata))
+    # print(rdata_hex)
+    
+    # r = int(rdata)
+    # if rdata != wdata:
+    #     raise TestFailure(f"Error reading back FIFO : read {rdata}  write : {wdata}")
 
 # Local Variables:
 # eval: (blacken-mode)
