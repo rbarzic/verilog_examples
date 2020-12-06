@@ -1,6 +1,6 @@
 import cocotb
 from cocotb.clock import Clock
-from cocotb.triggers import Timer, RisingEdge, FallingEdge
+from cocotb.triggers import Timer, RisingEdge, FallingEdge, ClockCycles
 from cocotb.result import TestError, TestFailure, ReturnValue
 
 import random # to generate random values of data
@@ -101,8 +101,26 @@ async def fifo_write_multi(dut, wdata):
     dut.wr_cs <= 0
 
 @cocotb.coroutine
-async def fifo_write_multi_clock(dut,parameter_list):
-    pass
+async def fifo_write_multi_clock(dut, wdata):
+    await Timer(5 * ns)
+    N = len(wdata)
+    # dut.wr_en <= 1
+    # dut.wr_cs <= 1
+    for i in range(N):
+        dut.wr_en <= 1
+        dut.wr_cs <= 1
+        delay = random.randint(1, 9)
+        if  Is_full != 1:
+            dut.data_in = wdata[i] #(wdata >> (i*8)) &0xFF
+            await RisingEdge(dut.clk)
+            dut.wr_en <= 0
+            dut.wr_cs <= 0
+            await ClockCycles(dut.clk, delay)
+            print(delay)
+
+    await Timer(2 * ns)
+    dut.wr_en <= 0
+    dut.wr_cs <= 0
 
 @cocotb.test()
 async def test_simple(dut):
@@ -139,7 +157,7 @@ async def test_simple(dut):
         raise TestFailure(f"Error reading back FIFO : read {hex(r)}  write : {hex(wdata)}")
 
 @cocotb.test()
-async def test_Multi(dut):
+async def test_Multi_messages(dut):
     """ A test for multiple write and read operations """
     dut.rd_en = 0
     dut.wr_en = 0
@@ -224,6 +242,41 @@ async def test_full(dut):
     if is_full != 1:
         raise TestFailure(f"Error reading back FIFO : read {r}  write : {wdata}")
 
+@cocotb.test()
+async def test_Multi_clocks(dut):
+    """ A test for multiple write and read operations """
+    dut.rd_en = 0
+    dut.wr_en = 0
+    dut.rd_cs = 0
+    dut.wr_cs = 0
+    
+    cocotb.fork(Clock(dut.clk, CLK_PERIOD).start())
+    await rst(dut)
+    
+    await Timer(CLK_PERIOD)
+
+    # wdata = 0xCAFEBABE
+    n = 5  
+
+    wdata = [0xCD, 0xAE, 0xF7, 0x89, 0xBE] # The written data
+
+
+    await fifo_write_multi_clock(dut, wdata=wdata)
+
+    await Timer(CLK_PERIOD)
+    await Timer(CLK_PERIOD)
+
+    rdata=  await fifo_read_multi(dut,N=n)
+
+    dut._log.info(f"-I- rdata = {rdata}")
+
+    # just for visual debug in the terminal
+    # rdata_hex = hex(int(rdata))
+    # print(rdata_hex)
+    
+    # r = int(rdata)
+    if rdata != wdata:
+        raise TestFailure(f"Error reading back FIFO : read {rdata}  write : {wdata}")
 
 # Local Variables:
 # eval: (blacken-mode)
