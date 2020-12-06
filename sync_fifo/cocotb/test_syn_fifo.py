@@ -67,8 +67,31 @@ async def fifo_read_multi(dut, N):
         if Is_empty != 1:
             r = int(dut.data_out.value)
             result.append(r)
-   
+    await Timer(2 * ns)
+    dut.rd_en <= 0
+    dut.rd_cs <= 0
+    return result
 
+@cocotb.coroutine
+async def fifo_read_multi_clocks(dut, N):
+    # A little delay tomake the waveform more pleasant to look at
+    await Timer(2 * ns)
+    result = []
+    dut.rd_en <= 1
+    dut.rd_cs <= 1
+    await RisingEdge(dut.clk)
+    for i in range(N):
+        dut.rd_en <= 1
+        dut.rd_cs <= 1
+        delay = random.randint(1, 9)
+        await RisingEdge(dut.clk)
+        if Is_empty != 1:
+            r = int(dut.data_out.value)
+            result.append(r)
+            dut.rd_en <= 0
+            dut.rd_cs <= 0
+            await ClockCycles(dut.clk, delay)
+            print(delay)
     await Timer(2 * ns)
     dut.rd_en <= 0
     dut.rd_cs <= 0
@@ -266,7 +289,7 @@ async def test_Multi_clocks(dut):
     await Timer(CLK_PERIOD)
     await Timer(CLK_PERIOD)
 
-    rdata=  await fifo_read_multi(dut,N=n)
+    rdata=  await fifo_read_multi_clocks(dut,N=n)
 
     dut._log.info(f"-I- rdata = {rdata}")
 
