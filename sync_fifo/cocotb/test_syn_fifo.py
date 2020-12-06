@@ -36,7 +36,7 @@ async def Is_empty(dut):
 
 @cocotb.coroutine
 async def fifo_read(dut):
-    if Is_empty(dut) != 1:
+    if await Is_empty(dut) != 1:
         # A little delay tomake the waveform more pleasant to look at
         await Timer(2 * ns)
         dut.rd_en <= 1
@@ -51,6 +51,7 @@ async def fifo_read(dut):
         dut.rd_cs <= 0
 
         return result
+    return 0
 
 @cocotb.coroutine
 async def fifo_read_multi(dut, N):
@@ -59,21 +60,19 @@ async def fifo_read_multi(dut, N):
     await Timer(2 * ns)
     dut.rd_en <= 1
     dut.rd_cs <= 1
-    result = [0]*N
+    result = []
     await RisingEdge(dut.clk)
     for i in range(N):
         await RisingEdge(dut.clk)
         if Is_empty != 1:
             r = int(dut.data_out.value)
-            result [i] = r
+            result.append(r)
    
 
     await Timer(2 * ns)
     dut.rd_en <= 0
     dut.rd_cs <= 0
     return result
-
-
 
 @cocotb.coroutine
 async def fifo_write(dut, wdata):
@@ -101,7 +100,9 @@ async def fifo_write_multi(dut, wdata):
     dut.wr_en <= 0
     dut.wr_cs <= 0
 
-
+@cocotb.coroutine
+async def fifo_write_multi_clock(dut,parameter_list):
+    pass
 
 @cocotb.test()
 async def test_simple(dut):
