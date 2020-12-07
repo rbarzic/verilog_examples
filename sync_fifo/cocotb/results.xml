@@ -1,7 +1,7 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1607360764" />
-    <testcase classname="test_syn_fifo" name="test_Multi_clocks" ratio_time="84065.76858268103" sim_time_ns="1142.001" time="0.013584613800048828" />
-    <testcase classname="test_syn_fifo" name="test_pharallel_operation" ratio_time="86466.11762337973" sim_time_ns="862.001" time="0.009969234466552734" />
+    <property name="random_seed" value="1607361134" />
+    <testcase classname="test_syn_fifo" name="test_Multi_clocks" ratio_time="111059.686836102" sim_time_ns="2002.001" time="0.018026351928710938" />
+    <testcase classname="test_syn_fifo" name="test_pharallel_operation" ratio_time="109045.17375469215" sim_time_ns="1442.001" time="0.013223886489868164" />
   </testsuite>
 </testsuites>

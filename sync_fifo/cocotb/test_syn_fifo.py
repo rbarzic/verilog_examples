@@ -86,7 +86,7 @@ async def fifo_read_multi_clocks(dut, N):
     #while True:
         if dut.empty != 1:
             cocotb.log.info(f"In read proc.")
-            delay = random.randint(1, 9)
+            delay = random.randint(6, 20)
             await RisingEdge(dut.clk)
             dut.rd_en <= 0
             dut.rd_cs <= 0
