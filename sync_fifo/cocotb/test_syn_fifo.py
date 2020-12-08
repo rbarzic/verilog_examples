@@ -166,7 +166,7 @@ async def fifo_write_multi_clock(dut, wdata):
     dut.wr_en <= 0
     dut.wr_cs <= 0
 
-'''
+
 @cocotb.test()
 async def test_simple(dut):
     """ A very basic  test"""
@@ -285,7 +285,7 @@ async def test_full(dut):
 
     if is_full != 1:
         raise TestFailure(f"Error: FIFO is not full")
-'''
+
 
 @cocotb.test()
 async def test_Multi_clocks(dut):
