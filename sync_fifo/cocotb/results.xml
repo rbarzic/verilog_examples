@@ -1,11 +1,11 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1607433068" />
-    <testcase classname="test_syn_fifo" name="test_simple" ratio_time="42293.51866303" sim_time_ns="122.001" time="0.0028846263885498047" />
-    <testcase classname="test_syn_fifo" name="test_Multi_messages" ratio_time="96597.5751013498" sim_time_ns="302.001" time="0.003126382827758789" />
-    <testcase classname="test_syn_fifo" name="test_empty" ratio_time="60525.380340548305" sim_time_ns="40.000999999999976" time="0.0006608963012695312" />
-    <testcase classname="test_syn_fifo" name="test_full" ratio_time="93140.45596415819" sim_time_ns="342.00100000000003" time="0.003671884536743164" />
-    <testcase classname="test_syn_fifo" name="test_Multi_clocks" ratio_time="121858.43972079524" sim_time_ns="2062.001" time="0.016921281814575195" />
-    <testcase classname="test_syn_fifo" name="test_pharallel_operation" ratio_time="109272.07215241165" sim_time_ns="1682.0010000000002" time="0.015392780303955078" />
+    <property name="random_seed" value="1607433306" />
+    <testcase classname="test_syn_fifo" name="test_simple" ratio_time="44292.32946455466" sim_time_ns="122.001" time="0.0027544498443603516" />
+    <testcase classname="test_syn_fifo" name="test_Multi_messages" ratio_time="94832.97164812457" sim_time_ns="302.001" time="0.0031845569610595703" />
+    <testcase classname="test_syn_fifo" name="test_empty" ratio_time="61009.58338327269" sim_time_ns="40.000999999999976" time="0.0006556510925292969" />
+    <testcase classname="test_syn_fifo" name="test_full" ratio_time="76155.0309144192" sim_time_ns="342.00100000000003" time="0.004490852355957031" />
+    <testcase classname="test_syn_fifo" name="test_Multi_clocks" ratio_time="118881.91123441925" sim_time_ns="2062.001" time="0.017344951629638672" />
+    <testcase classname="test_syn_fifo" name="test_pharallel_operation" ratio_time="102217.65535586611" sim_time_ns="1662.0010000000002" time="0.016259431838989258" />
   </testsuite>
 </testsuites>

@@ -4,7 +4,7 @@
 // Function    : Synchronous (single clock) FIFO
 // Coder       : Deepak Kumar Tala
 //-----------------------------------------------------
-module syn_fifo (
+module syn_ram_fifo (
 clk      , // Clock input
 rst      , // Active high reset
 wr_cs    , // Write chip select
@@ -19,7 +19,7 @@ full       // FIFO full
  
 // FIFO constants
 parameter DATA_WIDTH = 8;
-parameter ADDR_WIDTH = 4; //8;
+parameter ADDR_WIDTH = 4;
 parameter RAM_DEPTH = (1 << ADDR_WIDTH);
 // Port Declarations
 input clk ;
@@ -87,7 +87,8 @@ begin : STATUS_COUNTER
   end
 end 
    
-ram_dp_ar_aw #(DATA_WIDTH,ADDR_WIDTH)DP_RAM (
+ram_dp_sr_sw #(DATA_WIDTH,ADDR_WIDTH)DP_RAM (
+ .clk      (clk) , // Clock Input
 .address_0 (wr_pointer) , // address_0 input 
 .data_0    (data_in)    , // data_0 bi-directional
 .cs_0      (wr_cs)      , // chip select
@@ -99,6 +100,7 @@ ram_dp_ar_aw #(DATA_WIDTH,ADDR_WIDTH)DP_RAM (
 .we_1      (1'b0)       , // Read enable
 .oe_1      (rd_en)        // output enable
 );     
+
 `ifdef COCOTB_SIM
    initial begin
       $dumpfile ("waveform.vcd");
