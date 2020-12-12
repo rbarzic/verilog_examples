@@ -7,96 +7,66 @@ module uart_tb;
   
    reg reset;
    reg txclk;   
-   reg [7:0] tx_data; 
+   reg [8:0] tx_data; 
    reg 	     tx_enable;
-   reg      tx_out;
+   reg 	    tx_load;
   
    /*AUTOREG*/
     
+   wire     tx_out;
 
    /*AUTOWIRE*/
 
-   uart uut(
-
-	    .reset(reset),
-	    .txclk(txclk),
-	    .ld_tx_data(ld_tx_data)     ,
-	    .tx_data(tx_data)           ,
-	    .tx_enable (tx_enable)      ,
-	    .tx_out (tx_out)            ,
-	    .tx_empty(tx_empty)         ,
-	    .rxclk       (rxclk)        ,
-	    .uld_rx_data (uld_rx_data)  ,
-	    .rx_data     (rx_data)      ,
-	    .rx_enable   (rx_enable)    ,
-	    .rx_in       (rx_in)        ,
-	    .rx_empty    (rx_empty)
-	    );
-
-	    
-task tx;
-      begin
-      @(posedge txclk) 
-        ld_tx_data = 1;
-      @(posedge txclk) 
-        tx_enable = 1;
-      end
-    endtask
-
-    task rx;
-      begin
-      @(posedge rxclk) 
-        //rx_in = 0;
-        rx_enable = 1;
-        send_data(); 
-      // @(posedge rxclk)
-      //   uld_rx_data = 1;
-      end
-    endtask
-
-    task send_data;
-      begin
-        for (i = 0;i<8 ;i++ ) begin
-            rx_in = data[i];
-          for (j =0 ; j<7 ;j++ ) begin
-            @(posedge rxclk);
-          end
-          @(posedge rxclk);
-          end
-      end
-        uld_rx_data = 1;
-
-    endtask
-
-      initial begin
-        //initialize inputs
-    
-    txclk = 1;       // initial value of clock
-    rxclk = 1;
-    reset = 0;       // initial value of reset
-    uld_rx_data = 0;
-    #1 reset = 1;    // Assert the reset
-    #1;  
-     reset = 0;   // De-assert the reset
-     rx_in = 0;
-     tx_data = 7;
-     tx();
-     #2;
-     rx();
-
-
+    /* uart AUTO_TEMPLATE(
+     ); */
+   uart U_uart (
+			   /*AUTOINST*/
+		// Outputs
+		.tx_out			(tx_out),
+		// Inputs
+		.reset			(reset),
+		.txclk			(txclk),
+		.tx_enable		(tx_enable),
+		.tx_load		(tx_load),
+		.tx_data		(tx_data[8:0]));
    
-     #2000  $finish;      // Terminate simulation
-  end
+   task tx;
+      begin
+	 @(posedge txclk)
+	   tx_enable <= 1;
+	 @(posedge txclk)
+	   tx_load <= 1;
+	 
+
+      end
+   endtask // tx
+
+
+
+
+   initial begin
+      //initialize inputs
+      
+      txclk = 1;       // initial value of clock
+      reset = 0;       // initial value of reset
+      #1 reset = 1;    // Assert the reset
+      #1;  
+      reset = 0;   // De-assert the reset
+      tx_data = 7;
+      tx();
+   
+      
+      #2000  $finish;      // Terminate simulation
+   end
        
 
 
 
 
 
-  always begin
+   always begin
       #5 txclk = ~txclk;
-  end
+   end
 
 /* -----\/----- EXCLUDED -----\/-----
    always begin
@@ -104,12 +74,6 @@ task tx;
   end
  -----/\----- EXCLUDED -----/\----- */
 
-    // Dump all nets to a vcd file called tb.vcd
-  initial begin
-     $display("-I- VCD dump started...");
-     $dumpfile("uart_tb.vcd");
-     $dumpvars(0,uart_tb);
-  end
 
    
 
