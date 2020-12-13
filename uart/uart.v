@@ -21,11 +21,8 @@ module uart (/*AUTOARG*/
 
 
    reg [8:0] tx_reg;
-   reg tx_ready; //Triggeres that the data packet is ready to be sent
    reg tx_parity; //the parity bit of tx package odd parity is used
    reg tx_done;
-   reg tx_busy;
-   reg [11:0] tx_package;
    reg [3:0]  tx_cnt;
    reg 	      tx_out;
    
@@ -34,74 +31,83 @@ module uart (/*AUTOARG*/
 
   /*AUTOWIRE*/
 
-   parameter [1:0] IDLE         = 2'b00;
-   parameter [1:0] LOAD_MODE    = 2'b01;
-   parameter [1:0] SHIFT_MODE   = 2'b10;
-   reg [1:0] state;   
+   parameter  IDLE         = 0;
+   parameter  SHIFT_MODE   = 1;
+   reg  state;   
 
    // UART TX Logic
-always@(tx_enable or tx_ready )
-  begin: FSM    
-     case(state)
-       IDLE : begin
-	  if (tx_enable) begin
-	     state <= LOAD_MODE;
-	     tx_reg <= tx_data;
-	     
-	  end
-	  else begin
-	     state <= IDLE;
-	     
-	  end
+   always@(reset or tx_enable or tx_done)
+     begin: FSM
+	if (reset) 
+	  state <=0;
+	
+	else
+	  case(state)
+	    IDLE : begin
+	       if (tx_enable) begin
+		  state <= SHIFT_MODE;
+		  tx_reg <= tx_data;
+		  
+	       end
+	       else begin
+		  state <= IDLE;
+		  
+	       end
 
-       end // case: IDLE
-       LOAD_MODE: begin
-
-	  tx_package = {1'b0,tx_reg,tx_parity,1'b1};
-	  tx_ready = 1;
-	     
-	 	  
-       end // case: LOAD_MODE
-
-       SHIFT_MODE:begin
-  
-       end
-           
-       default: begin
-	  state <= IDLE;
-	  
-       end
-     endcase 
+	    end // case: IDLE
 
 
+	    SHIFT_MODE:begin
+	       if (tx_done) 
+		 state <= IDLE;
+	       else
+		 state <= SHIFT_MODE;
+	    end
+            
+	    default: begin
+	       state <= IDLE;
+	       
+	    end
+	    
+	  endcase 
+
+     end // block: FSM
+   
  
 
-  end // block: FSM
    
    always@(posedge txclk)
      begin: Transmision
 	if(reset)begin
-	   tx_out <= 0;
-	   tx_busy<= 0;
+	   tx_out <= 1;
 	   state <= IDLE;
+	   tx_parity <= 0;
 	   
-	end else if(tx_ready && state == SHIFT_MODE) begin
 	   
-           tx_out  <= tx_package[tx_cnt];
-           tx_busy <= 1;
-	end else begin
-	   
-           tx_out <= tx_out;
-           tx_busy<= tx_busy;
+	end else if( state == SHIFT_MODE) begin   
+	   if (tx_cnt == 0) begin
+	      tx_out <= 0;
+	   end else if (tx_cnt > 0 && tx_cnt < 10)begin
+	      tx_out <= tx_reg[tx_cnt - 1];
+	      tx_parity <=tx_parity^tx_reg[tx_cnt-1];
+	      
+	   end else if(tx_cnt == 10)
+	     tx_out <= tx_parity;
+	   else if (tx_cnt == 11)begin
+	      tx_out <= 0;
+	      tx_done <= 1;
+	   end
 	end
-     end
+     end // block: Transmision
+   
+
 
    always@(posedge txclk)
      begin: counter
 	if(reset) begin
 	   tx_cnt = 0;
-	end else if (tx_ready && state==SHIFT_MODE)begin
-	   if(tx_cnt < 10)
+	end else if ( state==SHIFT_MODE)begin
+	   if(tx_cnt < 12)
 	     tx_cnt <= tx_cnt+1;
 	   else 
 	     tx_cnt <= tx_cnt;

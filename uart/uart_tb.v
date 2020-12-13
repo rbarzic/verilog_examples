@@ -9,7 +9,7 @@ module uart_tb;
    reg txclk;   
    reg [8:0] tx_data; 
    reg 	     tx_enable;
-   reg 	    tx_load;
+   reg 	     tx_load;
   
    /*AUTOREG*/
     
@@ -49,8 +49,10 @@ module uart_tb;
       
       txclk = 1;       // initial value of clock
       reset = 0;       // initial value of reset
-      #1 reset = 1;    // Assert the reset
       #1;  
+      reset = 1;
+      
+      #10;
       reset = 0;   // De-assert the reset
       tx_data = 7;
       tx();
