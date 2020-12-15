@@ -10,12 +10,19 @@ module uart_tb;
    reg [8:0] tx_data; 
    reg 	     tx_enable;
    reg 	     tx_load;
+
+   reg 	     rxclk;
+   
   
    /*AUTOREG*/
     
    wire     tx_out;
 
    /*AUTOWIRE*/
+   // Beginning of automatic wires (for undeclared instantiated-module outputs)
+  // wire			rx_data;		// From U_uart of uart.v
+  // wire			rx_error;		// From U_uart of uart.v
+   // End of automatics
 
     /* uart AUTO_TEMPLATE(
      ); */
@@ -23,12 +30,16 @@ module uart_tb;
 			   /*AUTOINST*/
 		// Outputs
 		.tx_out			(tx_out),
+		.rx_data		(rx_data),
+		.rx_error		(rx_error),
 		// Inputs
 		.reset			(reset),
 		.txclk			(txclk),
 		.tx_enable		(tx_enable),
 		.tx_load		(tx_load),
-		.tx_data		(tx_data[8:0]));
+		.tx_data		(tx_data[8:0]),
+		.rxclk			(rxclk),
+		.rx_in			(tx_out));
    
    task tx;
       begin
@@ -36,11 +47,10 @@ module uart_tb;
 	   tx_enable <= 1;
 	 @(posedge txclk)
 	   tx_load <= 1;
-	 
-
       end
    endtask // tx
 
+  
 
 
 
@@ -48,11 +58,12 @@ module uart_tb;
       //initialize inputs
       
       txclk = 1;       // initial value of clock
+      rxclk = 1;
       reset = 0;       // initial value of reset
       #1;  
       reset = 1;
       
-      #10;
+      #20;
       reset = 0;   // De-assert the reset
       tx_data = 7;
       tx();
@@ -67,14 +78,14 @@ module uart_tb;
 
 
    always begin
-      #5 txclk = ~txclk;
+      #16 txclk = ~txclk;
    end
 
-/* -----\/----- EXCLUDED -----\/-----
+
    always begin
-      #10 rxclk = ~rxclk;
+      #1 rxclk = ~rxclk;
   end
- -----/\----- EXCLUDED -----/\----- */
+
 
 
    
