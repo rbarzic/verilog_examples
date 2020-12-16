@@ -25,8 +25,8 @@ module uart (/*AUTOARG*/
 
    /*AUTOOUTPUT*/
    output      tx_out;
-   output      rx_data;
-   output      rx_error;
+   output [8:0] rx_data;
+   output 	rx_error;
 
 
  
@@ -40,13 +40,15 @@ module uart (/*AUTOARG*/
    reg 	      rx_busy;
    reg [3:0]  rx_cnt; 	      
    reg [4:0]  rx_sample_cnt;
+   reg [11:0] rx_package;
+   
+   
  	      
    
    /*AUTOREG*/
    // Beginning of automatic regs (for this module's undeclared outputs)
-   reg			rx_data;
+   reg [8:0]		rx_data;
    reg			rx_error;
- 
    // End of automatics
 
   /*AUTOWIRE*/
@@ -98,23 +100,33 @@ module uart (/*AUTOARG*/
 	   tx_out <= 1;
 	   tx_parity <= 0;
 	   tx_done <= 0;
-	   
-	   
-	   
+	   	   
 	end else if( tx_state == SHIFT_MODE) begin   
 	   if (tx_cnt == 0) begin
 	      tx_out <= 0;
+	      tx_parity <= tx_parity;
+	      tx_done <= tx_done;
+	      
 	   end else if (tx_cnt > 0 && tx_cnt < 10)begin
 	      tx_out <= tx_reg[tx_cnt - 1];
 	      tx_parity <=tx_parity^tx_reg[tx_cnt-1];
+	      tx_done <= 0;
 	      
-	   end else if(tx_cnt == 10)
-	     tx_out <= tx_parity;
-	   else if (tx_cnt == 11)begin
-	      tx_out <= 0;
-	      tx_done <= 1;
+	   end else if(tx_cnt == 10)begin
+	      tx_out <= tx_parity;
+	      tx_done <= 0;
 	   end
-	end
+	   else if (tx_cnt == 11) begin
+	      tx_out <= 1;
+	      tx_done <= 1;
+	      
+	   end 
+	end else begin
+	   tx_out <= tx_out;
+	   tx_done <= tx_done;
+	   tx_parity <= tx_parity;
+	   
+	end // else: !if( tx_state == SHIFT_MODE)
      end // block: Transmision
    
 
@@ -124,9 +136,11 @@ module uart (/*AUTOARG*/
 	if(reset) begin
 	   tx_cnt = 0;
 	end else if ( tx_state==SHIFT_MODE)begin
-	   if(tx_cnt < 12)
+	   if(tx_cnt < 11)
 	     tx_cnt <= tx_cnt+1;
-	   else 
+	   else if (tx_cnt == 11)
+	     tx_cnt <= 0;
+	   else
 	     tx_cnt <= tx_cnt;
 	end else
 	  tx_cnt <= tx_cnt;
@@ -139,23 +153,18 @@ module uart (/*AUTOARG*/
   always@(reset or rx_busy)
      begin: FSM_RX
   	if (reset) 
-  	  rx_state <= SHIFT_MODE;
-//IDLE;
-	
-  	else
+  	  rx_state <= IDLE;
+	else
+	  
   	  case(rx_state)
   	    IDLE : begin
   	       if (rx_busy) begin
   		  rx_state <= SHIFT_MODE;
-		  
-  	       end
+	       end
   	       else begin
   		  rx_state <= IDLE;
-		  
   	       end
-
-  	    end // case: IDLE
-
+  	    end 
 
   	    SHIFT_MODE:begin
   	       if (!rx_busy) 
@@ -166,10 +175,8 @@ module uart (/*AUTOARG*/
             
   	    default: begin
   	       rx_state <= IDLE;
-	       
-  	    end
-	    
-  	  endcase 
+	    end
+	  endcase 
 
      end // block: FSM
 
@@ -179,10 +186,9 @@ module uart (/*AUTOARG*/
    	if(reset) begin
    	   rx_cnt <= 0;
    	   rx_sample_cnt <= 0;
-	   
-   	end else if ( rx_state==SHIFT_MODE && rx_cnt < 12 )begin
-   	   
-	   if (rx_cnt == 0) begin
+	end else if ( rx_state==SHIFT_MODE && rx_cnt < 12 )begin
+   	   if (rx_cnt == 0) begin
+	      
    	      if(rx_sample_cnt == 8)begin
    		 rx_cnt <= rx_cnt + 1;
 		 rx_sample_cnt = 0;
@@ -191,42 +197,74 @@ module uart (/*AUTOARG*/
 		 rx_sample_cnt = rx_sample_cnt + 1;
 	      end
 	      
-	      
-	   end else begin // if (rx_cnt == 0)
-	      
-	      
-	      if (rx_sample_cnt == 16) begin
+	   end else if (tx_cnt < 12) begin // if (rx_cnt == 0)
+
+	      if (tx_cnt == 12)begin 
+		 rx_cnt <= 0;
+		 rx_sample_cnt <= 0;
+	      end else if (rx_sample_cnt == 15) begin
 		 rx_cnt <= rx_cnt + 1;
 		 rx_sample_cnt = 0;
+		 
+		 
 	      end else begin
 		 rx_cnt <= rx_cnt;
 		 rx_sample_cnt = rx_sample_cnt + 1;
-	      end 
-
-
+	      end
 	      
-	      // else begin
-	      // 	 rx_cnt <= rx_cnt;
-	      // 	 rx_sample_cnt <= rx_sample_cnt + 1;
-	      // end
 	      
-	      //   end else 
-	      //      if(rx_cnt < 12)begin
-	      //       if(rx_sample_cnt==16)
-	      // 	rx_cnt <= rx_cnt+1;
-	      //       rx_sample_cnt <= 0;
-	      //    end else begin 
-	      //       rx_cnt <= rx_cnt;
-	      //       rx_sample_cnt <= rx_sample_cnt + 1;
-	      //    end
-	      // end
-	      //else
-	      
-	   end // else: !if(rx_cnt == 0)
-	end // if ( rx_state==SHIFT_MODE && rx_cnt < 12 )
+	   end else if (rx_state == IDLE) begin
+	      rx_cnt <= 0;
+	      rx_sample_cnt <= 0;
+	   end
+        end // if ( rx_state==SHIFT_MODE && rx_cnt < 12 )
      end // block: rx_counter
    
 
+   always @(posedge rxclk or reset ) 
+     begin: rx_reader
+      if(reset) begin
+	 /*AUTORESET*/
+	 // Beginning of autoreset for uninitialized flops
+	 rx_busy <= 1'h0;
+	 rx_data <= 9'h0;
+	 rx_package <= 12'h0;
+	 // End of automatics
+	 
+      end else if (rx_busy == 0)begin
+      
+	 if (rx_in == 0) begin
+	    rx_busy <= 1;
+	    rx_package[rx_cnt] <= rx_in;
+
+	 end else begin
+	    rx_busy <= rx_busy;
+	    rx_package <= rx_package;
+	    rx_data <= tx_data;
+
+	 end
+	 
+	 
+      end else if (rx_busy == 1)begin
+
+	   if(rx_cnt  == 12)begin 
+	      rx_busy <= 0;
+	      rx_data <=rx_package[9:1];
+	      rx_package <= 0;
+	 end else begin
+	    rx_package[rx_cnt] <= rx_in;
+	    rx_busy <= rx_busy;
+	    rx_data <= tx_data;
+	 end
+	 
+      end else begin
+	 rx_package <= rx_package;
+	 rx_busy <= rx_busy;
+	 rx_data <= tx_data;
+      end // else: !if(rx_busy == 1)
+   end // always @ (posedge rxclk or reset )
+   
+   
 
    
    // Dump all nets to a vcd file called tb.vcd

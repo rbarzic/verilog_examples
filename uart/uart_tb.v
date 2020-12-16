@@ -20,8 +20,8 @@ module uart_tb;
 
    /*AUTOWIRE*/
    // Beginning of automatic wires (for undeclared instantiated-module outputs)
-  // wire			rx_data;		// From U_uart of uart.v
-  // wire			rx_error;		// From U_uart of uart.v
+   wire [8:0]		rx_data;		// From U_uart of uart.v
+   wire			rx_error;		// From U_uart of uart.v
    // End of automatics
 
     /* uart AUTO_TEMPLATE(
@@ -30,7 +30,7 @@ module uart_tb;
 			   /*AUTOINST*/
 		// Outputs
 		.tx_out			(tx_out),
-		.rx_data		(rx_data),
+		.rx_data		(rx_data[8:0]),
 		.rx_error		(rx_error),
 		// Inputs
 		.reset			(reset),
