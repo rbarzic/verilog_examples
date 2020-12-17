@@ -198,15 +198,10 @@ module uart (/*AUTOARG*/
 	      end
 	      
 	   end else if (tx_cnt < 12) begin // if (rx_cnt == 0)
-
-	      if (tx_cnt == 12)begin 
-		 rx_cnt <= 0;
-		 rx_sample_cnt <= 0;
-	      end else if (rx_sample_cnt == 15) begin
+	  
+              if (rx_sample_cnt == 15) begin
 		 rx_cnt <= rx_cnt + 1;
 		 rx_sample_cnt = 0;
-		 
-		 
 	      end else begin
 		 rx_cnt <= rx_cnt;
 		 rx_sample_cnt = rx_sample_cnt + 1;
@@ -236,11 +231,12 @@ module uart (/*AUTOARG*/
 	 if (rx_in == 0) begin
 	    rx_busy <= 1;
 	    rx_package[rx_cnt] <= rx_in;
-
+	    rx_data <= rx_data;
+	    
 	 end else begin
 	    rx_busy <= rx_busy;
 	    rx_package <= rx_package;
-	    rx_data <= tx_data;
+	    rx_data <= rx_data;
 
 	 end
 	 
@@ -254,13 +250,13 @@ module uart (/*AUTOARG*/
 	 end else begin
 	    rx_package[rx_cnt] <= rx_in;
 	    rx_busy <= rx_busy;
-	    rx_data <= tx_data;
+	    rx_data <= rx_data;
 	 end
 	 
       end else begin
 	 rx_package <= rx_package;
 	 rx_busy <= rx_busy;
-	 rx_data <= tx_data;
+	 rx_data <= rx_data;
       end // else: !if(rx_busy == 1)
    end // always @ (posedge rxclk or reset )
    
