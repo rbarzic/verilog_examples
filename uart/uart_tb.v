@@ -12,6 +12,8 @@ module uart_tb;
    reg 	     tx_load;
 
    reg 	     rxclk;
+   reg [11:0] err_package;
+   reg 	      rx_in;
    
   
    /*AUTOREG*/
@@ -24,6 +26,9 @@ module uart_tb;
    wire			rx_error;		// From U_uart of uart.v
    // End of automatics
 
+   //parameters
+   integer 		i;
+   
     /* uart AUTO_TEMPLATE(
      ); */
    uart U_uart (
@@ -39,7 +44,8 @@ module uart_tb;
 		.tx_load		(tx_load),
 		.tx_data		(tx_data[8:0]),
 		.rxclk			(rxclk),
-		.rx_in			(tx_out));
+		.rx_in			(tx_out));//read package fed from the transmitter of the UART
+                //.rx_in			(rx_in)); //read package fed from testbench
    
    task tx;
       begin
@@ -51,6 +57,17 @@ module uart_tb;
    endtask // tx
 
   
+   task tx_err;
+      begin
+	 //err_package <= 12'b110000001110;
+	 err_package <= 12'b100000001110;
+	 
+	 for( i = 0; i < 12;i++)begin
+	    @(posedge txclk);
+	    rx_in <= err_package[i];
+	 end
+      end
+   endtask // tx_err
 
 
 
@@ -60,14 +77,16 @@ module uart_tb;
       txclk = 1;       // initial value of clock
       rxclk = 1;
       reset = 0;       // initial value of reset
-      #1;  
-      reset = 1;
+      rx_in <= 1;
       
+      #1;  
+      reset = 1; 
       #20;
       reset = 0;   // De-assert the reset
       tx_data = 7;
       tx();
-   
+      //tx_err();
+         
       
       #2000  $finish;      // Terminate simulation
    end
