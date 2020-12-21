@@ -87,16 +87,18 @@ module uart_tb;
       reset = 1; 
       #20;
       reset = 0;   // De-assert the reset
-      tx_data = 7;
+      for(i = 0;i < 9; i++)begin
+      tx_data = 7+i;
       tx();
       #500;
-      tx_data = 14;
-      tx();
+      end
+      //tx_data = 14;
+      //tx();
       
       //tx_err();
          
       
-      #2000  $finish;      // Terminate simulation
+      $finish;      // Terminate simulation
    end
        
 
