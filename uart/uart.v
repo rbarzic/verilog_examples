@@ -43,14 +43,14 @@ module uart (/*AUTOARG*/
    reg [11:0] rx_package;
    reg 	      rx_parity;
    
-   
+   reg [8:0]  rx_data;
+   reg 	      rx_error; 
    
  	      
    
    /*AUTOREG*/
    // Beginning of automatic regs (for this module's undeclared outputs)
-   reg [8:0]		rx_data;
-   reg			rx_error;
+
    // End of automatics
 
   /*AUTOWIRE*/
@@ -252,9 +252,7 @@ module uart (/*AUTOARG*/
 	   // Beginning of autoreset for uninitialized flops
 	   rx_busy <= 1'h0;
 	   rx_data <= 9'h0;
-	   //rx_error <= 1'h0;
 	   rx_package <= 12'h0;
-	   //rx_parity <= 1'h0;
 	   // End of automatics
 	   
 	end else if (rx_busy == 0)begin
@@ -330,7 +328,7 @@ module uart (/*AUTOARG*/
    initial begin
       $display("-I- VCD dump started...");
       $dumpfile("uart_tb.vcd");
-      $dumpvars(0,uart_tb);
+      $dumpvars(0,uart);
    end
 
 

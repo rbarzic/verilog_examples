@@ -1,0 +1,11 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1608559562" />
+    <testcase classname="test_syn_fifo" name="test_simple" ratio_time="36501.12577958485" sim_time_ns="122.001" time="0.0033423900604248047" />
+    <testcase classname="test_syn_fifo" name="test_Multi_messages" ratio_time="79947.23569199696" sim_time_ns="302.001" time="0.0037775039672851562" />
+    <testcase classname="test_syn_fifo" name="test_empty" ratio_time="52594.46843385577" sim_time_ns="40.000999999999976" time="0.0007605552673339844" />
+    <testcase classname="test_syn_fifo" name="test_full" ratio_time="66155.79773573768" sim_time_ns="342.00100000000003" time="0.00516963005065918" />
+    <testcase classname="test_syn_fifo" name="test_Multi_clocks" ratio_time="103522.48029842181" sim_time_ns="2202.001" time="0.021270751953125" />
+    <testcase classname="test_syn_fifo" name="test_pharallel_operation" ratio_time="79318.88823980637" sim_time_ns="1422.0010000000002" time="0.01792764663696289" />
+  </testsuite>
+</testsuites>
