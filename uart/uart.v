@@ -104,7 +104,7 @@ module uart (/*AUTOARG*/
 	   tx_out <= 1'h1;
 	   tx_parity <= 1'h0;
 	   tx_done <= 1'h0;
-	   	   
+	   
 	end else if( tx_state == SHIFT_MODE) begin   
 	   if (tx_cnt == 0) begin
 	      tx_out <= 0;
@@ -116,7 +116,7 @@ module uart (/*AUTOARG*/
 	      tx_parity <=tx_parity^tx_reg[tx_cnt-1];
 	      tx_done <= 0;
 	      //tx_parity <= (rx_cnt > 1)? tx_parity^tx_reg[tx_cnt-1]:tx_parity;
-	      	      
+	      
 	      
 	   end else if(tx_cnt == 10)begin
 	      tx_out <= tx_parity;
@@ -126,18 +126,23 @@ module uart (/*AUTOARG*/
 	      tx_out <= 1;
 	      tx_done <= 1;
 	      rx_parity <= rx_parity;
-	      
-	      
 	   end 
+	   
+
+	end else if(tx_state == IDLE)begin
+	   tx_out <= 1'h1;
+	   tx_parity <= 1'h0;
+	   tx_done <= 1'h0;
+
+
 	end else begin
 	   tx_out <= tx_out;
 	   tx_done <= tx_done;
 	   tx_parity <= tx_parity;
-	   
-	end // else: !if( tx_state == SHIFT_MODE)
+	end // else: !if(state == IDLE)
+	
      end // block: Transmision
    
-
 
    always@(posedge txclk or reset)
      begin: tx_counter
@@ -150,7 +155,9 @@ module uart (/*AUTOARG*/
 	     tx_cnt <= 0;
 	   else
 	     tx_cnt <= tx_cnt;
-	end else
+	end else if(tx_state == IDLE)
+	  tx_cnt <=4'h0;
+	else
 	  tx_cnt <= tx_cnt;
      end
 
@@ -211,7 +218,7 @@ module uart (/*AUTOARG*/
 	      end
 	      
 	   end else if (rx_cnt < 12) begin // if (rx_cnt == 0)
-	  
+	      
               if (rx_sample_cnt == 15) begin
 		 rx_cnt <= rx_cnt + 1;
 		 rx_sample_cnt = 0;
@@ -225,17 +232,17 @@ module uart (/*AUTOARG*/
 		 rx_parity <= rx_parity;
 		 
 	      end
-	      
-	      
-	   end else if (rx_state == IDLE) begin
-	      rx_cnt <= 0;
-	      rx_sample_cnt <= 0;
-	      rx_error <= rx_error;
-	      rx_parity <= rx_parity;
-	      
 	   end
-        end // if ( rx_state==SHIFT_MODE && rx_cnt < 12 )
+        end else if (rx_state == IDLE) begin
+	   rx_cnt <= 4'h0;
+	   rx_sample_cnt <=5'h 0;
+	   rx_error <= rx_error;
+	   rx_parity <= rx_parity;
+	end
+	
      end // block: rx_counter
+   
+	
    
 
    always @(posedge rxclk or reset ) 
@@ -251,7 +258,7 @@ module uart (/*AUTOARG*/
 	   // End of automatics
 	   
 	end else if (rx_busy == 0)begin
-	   rx_data <= 9'h0;
+	   rx_data <= rx_data;
 	   //rx_error <=rx_error;
 	   //rx_parity <= rx_error;
 	   

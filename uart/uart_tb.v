@@ -53,6 +53,10 @@ module uart_tb;
 	   tx_enable <= 1;
 	 @(posedge txclk)
 	   tx_load <= 1;
+	 @(posedge txclk)
+	   tx_enable <= 0;
+	 @(posedge txclk)
+	   tx_load <= 0;
       end
    endtask // tx
 
@@ -85,6 +89,10 @@ module uart_tb;
       reset = 0;   // De-assert the reset
       tx_data = 7;
       tx();
+      #500;
+      tx_data = 14;
+      tx();
+      
       //tx_err();
          
       
