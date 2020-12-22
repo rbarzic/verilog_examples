@@ -1,5 +1,3 @@
-
-
 module uart (/*AUTOARG*/
    // Outputs
    tx_out, rx_data, rx_error,
