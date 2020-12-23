@@ -18,6 +18,6 @@ export COCOTB_REDUCED_LOG_FMT
 include $(shell cocotb-config --makefiles)/Makefile.sim
 
 wave:
-	gtkwave waveform.vcd &
+	gtkwave uart_tb.vcd &
 
 

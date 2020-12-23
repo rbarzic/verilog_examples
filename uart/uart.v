@@ -130,7 +130,7 @@ module uart (/*AUTOARG*/
 	end else if(tx_state == IDLE)begin
 	   tx_out <= 1'h1;
 	   tx_parity <= 1'h0;
-	   tx_done <= 1'h0;
+	   tx_done <= tx_done; //1'h0;
 
 
 	end else begin
