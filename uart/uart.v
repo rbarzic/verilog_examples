@@ -122,9 +122,13 @@ module uart (/*AUTOARG*/
 	   end
 	   else if (tx_cnt == 11) begin
 	      tx_out <= 1;
-	      tx_done <= 1;
-	      rx_parity <= rx_parity;
-	   end 
+	      tx_done <= 1'h0;
+	      tx_parity <= tx_parity;
+	   end else begin
+	      tx_done <= 1'h1;
+	      tx_out <= tx_out;
+	      tx_parity <= tx_parity;
+	   end   
 	   
 
 	end else if(tx_state == IDLE)begin
@@ -147,9 +151,9 @@ module uart (/*AUTOARG*/
 	if(reset) begin
 	   tx_cnt = 4'h0;
 	end else if ( tx_state==SHIFT_MODE)begin
-	   if(tx_cnt < 11)
+	   if(tx_cnt < 12)
 	     tx_cnt <= tx_cnt+1;
-	   else if (tx_cnt == 12)
+	   else if (tx_cnt == 13)
 	     tx_cnt <= 0;
 	   else
 	     tx_cnt <= tx_cnt;
