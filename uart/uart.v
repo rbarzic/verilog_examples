@@ -266,7 +266,7 @@ module uart (/*AUTOARG*/
 	   if (rx_in == 0) begin
 	      rx_busy <= 1;
 	      rx_package[rx_cnt] <= rx_in;
-	      $display ("rx_cnt = %d",rx_cnt);
+	      //$display ("rx_cnt = %d",rx_cnt);
 	      
 	      
 	   end else begin
@@ -289,7 +289,7 @@ module uart (/*AUTOARG*/
 	      rx_busy <= rx_busy;
 	      rx_data <= rx_data;
 
-	      $display ("rx_cnt = %d",rx_cnt);
+	     //$display ("rx_cnt = %d",rx_cnt);
 	   end // else: !if(rx_cnt  == 12)
        	end // if (rx_busy == 1)
      end // block: rx_reader

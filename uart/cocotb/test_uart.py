@@ -50,6 +50,8 @@ async def tx_init(m,data):
     await RisingEdge(m.txclk)
     m.tx_load <= 0
     await RisingEdge(m.txclk)
+    m._log.info("TX_init:TX has been initiated")
+
     #return m.tx_out
     
 
@@ -61,7 +63,7 @@ async def rx(m):
         package =int(m.tx_out)
         m.rx_in <= package
         await RisingEdge (m.rxclk)
-
+    m._log.info("RX:The received message is %d" % (m.rx_data))
     return m.rx_data
     
 
@@ -71,6 +73,14 @@ async def tx(m,data):
     await tx_init(m,data)
     while( await Is_tx_done(m)== 0):
         await RisingEdge(m.txclk)
+    m._log.info("TX:The sent message is %d" % (m.tx_data))
+
+
+
+
+
+
+
         
 @cocotb.test()
 async def test_TX_Is_done(dut):
@@ -85,16 +95,21 @@ async def test_TX_Is_done(dut):
     await tx_init(dut,message)
 
     is_done = await Is_tx_done(dut)
-    if is_done == 1:
-        raise TestFailure(f"Error: transmission has not started, and tx_done has been set")
+    print(is_done)
+    assert is_done == False, "%s not %d at after initiating the transmission" % (dut.tx_done._path, False)
+
+    #if is_done == 1:
+    #    raise TestFailure(f"Error: transmission has not started, and tx_done has been set")
     
     
     while( await Is_tx_done(dut)== 0):
         await Timer(CLK_PERIOD_TX)
 
     is_done = await Is_tx_done(dut)
-    if is_done == 0:
-        raise TestFailure(f"Error: transmission is done, and tx_done hasn't been set")
+    assert is_done == True, "%s not %d at after finishing the transmission" % (dut.tx_done._path, False)
+    
+    #if is_done == 0:
+    #    raise TestFailure(f"Error: transmission is done, and tx_done hasn't been set")
     
 
 
@@ -102,7 +117,7 @@ async def test_TX_Is_done(dut):
     
 @cocotb.test()
 async def test_simple(dut):
-    """ A dummy test"""
+    """ test the package transmission"""
     
     clk_tx(dut)
     clk_rx(dut)
@@ -120,9 +135,17 @@ async def test_simple(dut):
     #wait for the TX to finish transmitting
     #while( await Is_tx_done(dut)== 0):
      #   await Timer(CLK_PERIOD)
+    sent_message = hex(int(dut.tx_data))
+    received_message = hex(int( dut.rx_data))
+    
+    assert sent_message == received_message, "%s (%h) is not equal to %s(%h) " % (dut.tx_data._path,dut.tx_data, dut.rx_data._path,dut.rx_data)
 
-    if dut.rx_error == 1:
-        raise TestFailure(f"Error: Error in the parity of received package")
+    transmission_error = dut.rx_error
+
+    assert transmission_error == False, "%s not %d at after receiving the package" % (dut.rx_error._path, False)
+    
+    #if dut.rx_error == 1:
+    #    raise TestFailure(f"Error: Error in the parity of received package")
     
 
 
