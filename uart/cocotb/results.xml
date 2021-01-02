@@ -1,7 +1,8 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1609337698" />
-    <testcase classname="test_uart" name="test_TX_Is_done" ratio_time="1112862.408150222" sim_time_ns="5440.001" time="0.004888296127319336" />
-    <testcase classname="test_uart" name="test_simple" ratio_time="75894.81757019692" sim_time_ns="5440.001" time="0.07167816162109375" />
+    <property name="random_seed" value="1609594726" />
+    <testcase classname="test_uart" name="test_TX_Is_done" ratio_time="750312.987645643" sim_time_ns="5440.001" time="0.007250308990478516" />
+    <testcase classname="test_uart" name="test_simple" ratio_time="70206.20909016616" sim_time_ns="5440.001" time="0.07748603820800781" />
+    <testcase classname="test_uart" name="test_error" ratio_time="131221.86416509235" sim_time_ns="4160.001" time="0.03170204162597656" />
   </testsuite>
 </testsuites>

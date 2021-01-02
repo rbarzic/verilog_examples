@@ -54,7 +54,15 @@ async def tx_init(m,data):
 
     #return m.tx_out
     
+@cocotb.coroutine
+async def tx(m,data):
+    await Timer(2*ns_t)
+    await tx_init(m,data)
+    while( await Is_tx_done(m)== 0):
+        await RisingEdge(m.txclk)
+    m._log.info("TX:The sent message is %d" % (m.tx_data))
 
+    
 @cocotb.coroutine
 async def rx(m):
     await Timer(2*ns_r)
@@ -68,13 +76,23 @@ async def rx(m):
     
 
 @cocotb.coroutine
-async def tx(m,data):
-    await Timer(2*ns_t)
-    await tx_init(m,data)
-    while( await Is_tx_done(m)== 0):
-        await RisingEdge(m.txclk)
-    m._log.info("TX:The sent message is %d" % (m.tx_data))
-
+async def rx_from_data(m,r_package):
+    await Timer(2*ns_r)
+    i = 0
+    package = r_package
+    d_in = package & (1 << i)
+    print(d_in)
+    m.rx_in <= int(d_in)
+    i += 1
+    await RisingEdge (m.txclk)
+    while( (await Is_rx_busy(m) == 1) ):
+        #await Timer (ns_r)
+        d_in = package & (1 << i)
+        m.rx_in <= int(d_in >> i)
+        i += 1
+        await RisingEdge (m.txclk)
+    m._log.info("RX:The received message is %d" % (m.rx_data))
+    return m.rx_data
 
 
 
@@ -148,7 +166,23 @@ async def test_simple(dut):
     #    raise TestFailure(f"Error: Error in the parity of received package")
     
 
+@cocotb.test()
+async def test_error(dut):
+    clk_tx(dut)
+    clk_rx(dut)
 
+    await rst(dut)
+
+    await Timer(CLK_PERIOD_RX)
+
+    package =  0b100000001110
+    await rx_from_data(dut,package)
+
+    error_sig = dut.rx_error
+
+    assert error_sig  == True, " The receiver didn't detect the error in the package (%s is not True) " % (dut.rx_error._path)
+
+        
 # Local Variables:
 # eval: (blacken-mode)
 # End:
