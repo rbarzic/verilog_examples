@@ -4,6 +4,8 @@
 module instr_mem_tb;
    
    reg [15:0] PCt;
+   reg 	      fill;
+   
    wire [15:0] instruction;
       
 
@@ -11,23 +13,29 @@ module instr_mem_tb;
    /*AUTOWIRE*/
 
    instr_mem uut(
-	      .PC(PCt),
-	      .instruction(instruction)     
-	      );
+		 .fill(fill),
+		 .PC(PCt),
+		 .instruction(instruction)     
+		 );
    
    
 
    initial
      begin
 
-	PCt = 0;
+	//PCt = 0;
+	fill = 0;
 
+	//fill the instruction memory with the instruction form prog file
+	#1 fill = 1;
+	#1 fill = 0;
+	#1 fill = 1;
+	#1 fill = 0;
 
+	#1 PCt = 0;
 	#1 PCt = 1;
 	#1 PCt = 2;
 	#1 PCt = 3;
-	#1 PCt = 4;
-	#1 PCt = 5;
 
 	
 	
