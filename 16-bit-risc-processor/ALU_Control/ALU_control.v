@@ -29,9 +29,9 @@ module ALU_control (/*AUTOARG*/
    always @(ALUcont)
      begin
 	
-	case(ALUcont)
-	  6'b10xxxx: ALUcnt <= 3'b000; //ALU operation: ADD, instruction LW,SW
-	  6'b01xxxx: ALUcnt <= 3'b001; //ALU operation: SUB, instruction : BEQ, BNQ
+	casez(ALUcont)
+	  6'b10????: ALUcnt <= 3'b000; //ALU operation: ADD, instruction LW,SW
+	  6'b01????: ALUcnt <= 3'b001; //ALU operation: SUB, instruction : BEQ, BNQ
    	  6'b000010: ALUcnt <= 3'b000; //ALU operation: ADD, instruction : BEQD-type:ADD
 	  6'b000011: ALUcnt <= 3'b001; //ALU operation: SUB, instruction : D-type:SUB
 	  6'b000100: ALUcnt <= 3'b010; //ALU operation: INVERT, instruction : D-type:INVERT

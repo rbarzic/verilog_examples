@@ -24,9 +24,17 @@ module ALU_control_tb;
 	ALUOp  = 2'b00;
 	Opcode = 3'b000;
 
-	#1 Opcode = 4'b0011;
+	#1;
+	Opcode = 4'b0100;//SUB
 	
+	#1;
+	ALUOp  = 2'b01;
+	Opcode = 4'b0000;
 		
+        #1;
+	ALUOp  = 2'b00;
+ 	Opcode = 4'b0111;
+
 
 	
 	#5 $finish;
