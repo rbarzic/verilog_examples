@@ -1,0 +1,15 @@
+0000 0100 0000 0000
+0000 0100 0100 0001 // load R1 <-Mem(R2 + 1)
+0010 0000 0101 0000 // Add R2 <-R0 + R1
+0001 0010 1000 0000 // Store Mem(R1 + 0) <-R2
+0011 0000 0101 0000 // sub R2 <-R0 -R1
+0100 0000 0101 0000 // invert R2 <-!R0 
+0101 0000 0101 0000 // logical shift left R2 <-R0<<R1 
+0110 0000 0101 0000 // logical shift right R2 <-R0>>R1 
+0111 0000 0101 0000 // AND R2<-R0 AND R1 
+1000 0000 0101 0000 // OR R2<-R0 OR R1 
+1001 0000 0101 0000 // SLT R2 <-1 if R0 < R1 
+0010 0000 0000 0000 // Add R0 <-R0 + R0
+1011 0000 0100 0001 // BEQ branch to jump if R0=R1, PCnew= PC+2+offset<<1 = 28 => offset = 1
+1100 0000 0100 0000 // BNE branch to jump if R0!=R1, PCnew= PC+2+offset<<1 = 28 => offset = 0
+1101 0000 0000 0000 // J jump to the beginning address
