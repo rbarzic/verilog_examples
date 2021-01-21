@@ -22,30 +22,31 @@ module ALU (/*AUTOARG*/
    /*AUTOREG*/
    // Beginning of automatic regs (for this module's undeclared outputs)
    reg [15:0]		result;
-   reg			zero;
+   //reg			zero;
    // End of automatics
    /*AUTOWIRE*/
    
 
-   always @(a)
+   always @(*)
      begin
 
-	
-	//ADD
-	//SUB
-	//INVERT
-	//LSL
-	//LSR
-	//AND
-	//OR
-	//SLT
-
-	     
-	 
+	case(ALUCntrl)
+	  3'b000 : result <= a + b;//ADD
+	  3'b001 : result <= a - b;//SUB
+	  3'b010 : result <= ~a;   //INVERT
+	  3'b011 : result <= a<<b; //LSL
+	  3'b100 : result <= a>>b; //LSR
+	  3'b101 : result <= a&b ; //AND
+       	  3'b110 : result <= a|b;  //OR
+	  3'b111 : result <= (a<b) ? 16'b1: 16'b0; //SLT
+	  
+	  default: $display("unrecognized control signal");
+	endcase 	 
 	
      end
    
-
+   assign zero = (result == 16'b0)?1'b1: 1'b0;
+   
    
    // Dump all nets to a vcd file called tb.vcd
    initial begin

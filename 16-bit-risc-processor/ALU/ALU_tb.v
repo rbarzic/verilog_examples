@@ -29,7 +29,20 @@ module ALU_tb;
 	a = 16'b0;
 	b = 16'b0;
 	ALUCntrl = 3'b0;
+
+	#1; //ADD
+	a = 16;
+	b = 8;
+	ALUCntrl = 3'b000;
 	
+	#1 ALUCntrl = 3'b001; //SUB
+	#1 ALUCntrl = 3'b010; //INVERT
+	#1 ALUCntrl = 3'b011; //LSL
+	#1 ALUCntrl = 3'b100; //LSR
+	#1 ALUCntrl = 3'b101; //AND
+	#1 ALUCntrl = 3'b110; //OR
+	#1 ALUCntrl = 3'b111; //SLT
+
 
 
 	
