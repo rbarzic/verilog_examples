@@ -37,6 +37,12 @@ run_questa_gui:
 	vsim -lib work work.DesignOpt  -gui
 
 
+run_xcelium:
+	xrun -f vlist_tb.txt
+
+run_xcelium_gui:
+	xrun -f vlist_tb.txt  -gui -access +rw	
+
 help:
 	@echo "Targets:"
 	@echo "         comp : Compile the design with icarus Verilog (using files listed in vlist_tb.txt)"
