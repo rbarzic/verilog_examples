@@ -18,3 +18,4 @@ sdc_example1/tb
 /sdc_example1/synthesis_genus.cmd*
 /sdc_example1/synthesis_genus.log
 /sdc_example1/synthesis_genus.log*
+/simple_counter/obj_dir/
