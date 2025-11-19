@@ -31,22 +31,22 @@
 //********************************************************************
 
 module clock_gen (/*AUTOARG*/
-  // Outputs
-  clk
-  );
-  parameter period = 100;
- 
-  output clk;
-  
-  
-  reg    clk;
-  always #(period/2) clk = !clk;  
+                  // Outputs
+                  clk0
+                  );
+   parameter period = 100;
+   
+   output    clk0;
+   
+   
+   reg       clk0;
+   always #(period/2) clk0 = !clk0;  
 
-  initial begin
-    clk = 1'b0;
-  end
-  
-  
+   initial begin
+      clk0 = 1'b0;
+   end
+   
+   
 endmodule // clock_gen
 /*  
  Local Variables:

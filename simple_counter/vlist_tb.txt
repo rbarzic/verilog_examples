@@ -1,4 +1,5 @@
 tb.v
 clock_gen.v
+multiple_clock_gen.v
 reset_generator.v
 chip.v
