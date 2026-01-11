@@ -1,0 +1,4 @@
+{
+  "task_description": "Fix cocotb verification support and update it to cocotb 2.0",
+  "workflow_type": "feature"
+}

@@ -2,7 +2,6 @@ import types
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import Timer, RisingEdge, FallingEdge, Timer
-from cocotb.result import TestError, TestFailure, ReturnValue
 from cocotb.utils import get_sim_time
 
 

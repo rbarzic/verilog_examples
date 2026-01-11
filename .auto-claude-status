@@ -1,0 +1,25 @@
+{
+  "active": true,
+  "spec": "001-cocotb-2-0",
+  "state": "building",
+  "subtasks": {
+    "completed": 1,
+    "total": 10,
+    "in_progress": 1,
+    "failed": 0
+  },
+  "phase": {
+    "current": "Update test_implementation.py for cocotb 2.0",
+    "id": null,
+    "total": 5
+  },
+  "workers": {
+    "active": 0,
+    "max": 1
+  },
+  "session": {
+    "number": 2,
+    "started_at": "2026-01-11T11:53:17.699232"
+  },
+  "last_update": "2026-01-11T11:54:41.301475"
+}

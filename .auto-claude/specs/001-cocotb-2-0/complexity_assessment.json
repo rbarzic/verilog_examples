@@ -1,0 +1,70 @@
+{
+  "complexity": "standard",
+  "workflow_type": "feature",
+  "confidence": 0.85,
+  "reasoning": "This is a dependency upgrade task requiring API migration from cocotb 1.x to 2.0. The codebase analysis shows 2 test files need updates for breaking API changes. While localized to test files, cocotb 2.0 has significant breaking changes requiring research. The scope is contained but non-trivial due to unfamiliar API patterns.",
+
+  "analysis": {
+    "scope": {
+      "estimated_files": 3,
+      "estimated_services": 1,
+      "is_cross_cutting": false,
+      "notes": "Changes localized to test files: test_implementation.py (main test with deprecated decorators), test.py (runner configuration), and potentially adding requirements.txt for version pinning."
+    },
+    "integrations": {
+      "external_services": [],
+      "new_dependencies": [],
+      "research_needed": true,
+      "notes": "No external services - cocotb is a Python package. However, cocotb 2.0 has significant breaking changes that require research: @cocotb.coroutine removed, cocotb.result module removed, logging API changed."
+    },
+    "infrastructure": {
+      "docker_changes": false,
+      "database_changes": false,
+      "config_changes": false,
+      "notes": "No infrastructure changes. This is a simple Verilog project with local verification. May add requirements.txt but no Docker or database involvement."
+    },
+    "knowledge": {
+      "patterns_exist": false,
+      "research_required": true,
+      "unfamiliar_tech": ["cocotb 2.0 API"],
+      "notes": "Current code uses deprecated cocotb 1.x patterns (@cocotb.coroutine, TestError/TestFailure/ReturnValue from cocotb.result, dut._log). Need to learn 2.0 equivalents (plain async def, standard exceptions, dut.log)."
+    },
+    "risk": {
+      "level": "medium",
+      "concerns": [
+        "Breaking API changes could cause silent test failures if not correctly migrated",
+        "cocotb 2.0 may have different error handling behavior",
+        "Test may pass but fail to catch actual hardware bugs if async semantics change"
+      ],
+      "notes": "Medium risk because while scope is limited, incorrect migration could lead to false-positive test results. The verification framework correctness is critical."
+    }
+  },
+
+  "recommended_phases": [
+    "discovery",
+    "requirements",
+    "research",
+    "context",
+    "spec_writing",
+    "planning",
+    "validation"
+  ],
+
+  "flags": {
+    "needs_research": true,
+    "needs_self_critique": false,
+    "needs_infrastructure_setup": false
+  },
+
+  "validation_recommendations": {
+    "risk_level": "high",
+    "skip_validation": false,
+    "minimal_mode": false,
+    "test_types_required": ["integration", "e2e"],
+    "security_scan_required": false,
+    "staging_deployment_required": false,
+    "reasoning": "Verification framework migration is high-risk - if tests don't correctly validate hardware behavior, the entire verification assurance is compromised. Requires integration tests to verify cocotb properly simulates the Verilog design, and E2E tests to confirm the full pytest-to-simulation pipeline works. No security scan needed as this is local verification with no network/Auth components. No staging deployment as this is a local development environment."
+  },
+
+  "created_at": "2025-01-11T12:00:00Z"
+}

@@ -1,0 +1,192 @@
+{
+  "integrations_researched": [
+    {
+      "name": "cocotb",
+      "type": "library",
+      "verified_package": {
+        "name": "cocotb",
+        "install_command": "pip install \"cocotb~=2.0\"",
+        "version_specific": "pip install cocotb==2.0.1",
+        "verified": true,
+        "pypi_url": "https://pypi.org/project/cocotb/"
+      },
+      "python_requirements": {
+        "minimum": "3.6.2",
+        "supported_versions": ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"],
+        "note": "cocotb 2.1.0 (in development) will drop support for Python 3.6-3.8"
+      },
+      "api_patterns": {
+        "imports": [
+          "import cocotb",
+          "from cocotb.clock import Clock",
+          "from cocotb.triggers import Timer, RisingEdge, FallingEdge, ReadOnly, ReadWrite",
+          "from cocotb.runner import get_runner"
+        ],
+        "imports_removed_in_2_0": [
+          "from cocotb.result import TestError, TestFailure, ReturnValue (REMOVED)",
+          "from cocotb.decorators import coroutine (REMOVED - use async def instead)"
+        ],
+        "initialization": "get_runner(simulator_name) - returns runner instance",
+        "key_functions": [
+          "runner.build(verilog_sources, vhdl_sources, hdl_toplevel, ...)",
+          "runner.test(test_module, testcase, hdl_toplevel, ...)",
+          "cocotb.start_soon(coro()) - schedule coroutine",
+          "cocotb.log.info(msg) - logging (replaces dut._log)"
+        ],
+        "verified_against": [
+          "https://docs.cocotb.org/en/stable/upgrade-2.0.html",
+          "https://docs.cocotb.org/en/stable/install.html",
+          "https://pypi.org/project/cocotb/"
+        ]
+      },
+      "configuration": {
+        "env_vars": [
+          "SIM - simulator to use (icarus, verilator, etc.)",
+          "COCOTB_VCD - enable waveform dump (1 or 0)",
+          "THREADS - number of threads for verilator",
+          "COVERAGE - enable coverage (1 or 0)"
+        ],
+        "simulators_supported": [
+          "icarus (iverilog)",
+          "verilator",
+          "questa (modelsim)",
+          "xcelium",
+          "vcs",
+          "ghdl"
+        ]
+      },
+      "breaking_changes_2_0": {
+        "coroutine_decorator_removed": {
+          "old": "@cocotb.coroutine def func():",
+          "new": "async def func():",
+          "migration": "Remove @cocotb.coroutine decorator, add async keyword before def"
+        },
+        "result_classes_removed": {
+          "TestFailure": "Use assert statement instead: assert condition, 'message'",
+          "TestError": "Use standard Python exceptions instead: raise RuntimeError('msg')",
+          "ReturnValue": "Use return statement instead: return value"
+        },
+        "fork_renamed": {
+          "old": "cocotb.fork(coro())",
+          "new": "cocotb.start_soon(coro())",
+          "note": "start_soon does not run immediately, but 'soon' - prevents scheduler re-entrancy"
+        },
+        "logging_changed": {
+          "old": "dut._log.info('message')",
+          "new": "cocotb.log.info('message')",
+          "note": "_log on handles is now private, use cocotb.log instead"
+        },
+        "sources_parameter": {
+          "old": "verilog_sources=[...], vhdl_sources=[...]",
+          "new": "sources=[...] (combined)",
+          "note": "verilog_sources and vhdl_sources deprecated, use single sources list"
+        }
+      },
+      "current_code_issues": [
+        {
+          "file": "test_implementation.py",
+          "line": 5,
+          "issue": "Imports from cocotb.result (TestError, TestFailure, ReturnValue)",
+          "severity": "high",
+          "fix": "Remove import, use assert for TestFailure, standard exceptions for TestError"
+        },
+        {
+          "file": "test_implementation.py",
+          "line": 12,
+          "issue": "@cocotb.coroutine decorator used",
+          "severity": "high",
+          "fix": "Remove decorator, function is already async so just remove @cocotb.coroutine"
+        },
+        {
+          "file": "test_implementation.py",
+          "line": 20,
+          "issue": "@cocotb.coroutine decorator used",
+          "severity": "high",
+          "fix": "Remove decorator"
+        },
+        {
+          "file": "test_implementation.py",
+          "line": 28,
+          "issue": "@cocotb.coroutine decorator used",
+          "severity": "high",
+          "fix": "Remove decorator"
+        },
+        {
+          "file": "test_implementation.py",
+          "line": 38,
+          "issue": "@cocotb.coroutine decorator used",
+          "severity": "high",
+          "fix": "Remove decorator"
+        },
+        {
+          "file": "test_implementation.py",
+          "line": 41,
+          "issue": "cocotb.cocotb.start_soon - redundant module reference",
+          "severity": "low",
+          "fix": "Change to cocotb.start_soon"
+        },
+        {
+          "file": "test_implementation.py",
+          "line": 45,
+          "issue": "dut._log.info() - _log is private in 2.0",
+          "severity": "medium",
+          "fix": "Replace with cocotb.log.info()"
+        },
+        {
+          "file": "test_implementation.py",
+          "line": 61,
+          "issue": "dut._log.info() - _log is private in 2.0",
+          "severity": "medium",
+          "fix": "Replace with cocotb.log.info()"
+        },
+        {
+          "file": "test.py",
+          "line": 128,
+          "issue": "verilog_sources parameter (deprecated)",
+          "severity": "low",
+          "fix": "Change to sources parameter (also remove vhdl_sources=[])"
+        },
+        {
+          "file": "test.py",
+          "line": 129,
+          "issue": "vhdl_sources parameter (deprecated)",
+          "severity": "low",
+          "fix": "Remove, use combined sources parameter"
+        }
+      ],
+      "gotchas": [
+        "cocotb.start_soon() does NOT run immediately like cocotb.fork() did - coroutine runs 'soon' not 'now'",
+        "If immediate execution needed after start_soon(), use 'await NullTrigger()'",
+        "Task.cancel() throws CancelledError into the task for cleanup, unlike Task.kill()",
+        "CancelledError cannot be squashed - catching BaseException will cause RuntimeError",
+        "LogicArray replaces BinaryValue - indexing uses HDL scheme, not always 0 to length-1",
+        "Signal values now return Logic (scalar) or LogicArray (vector), not BinaryValue"
+      ],
+      "research_sources": [
+        "https://docs.cocotb.org/en/stable/upgrade-2.0.html",
+        "https://docs.cocotb.org/en/stable/install.html",
+        "https://docs.cocotb.org/en/stable/platform_support.html",
+        "https://pypi.org/project/cocotb/",
+        "https://www.cocotb.org/2025/07/16/cocotb-2-beta.html"
+      ]
+    }
+  ],
+  "unverified_claims": [],
+  "recommendations": [
+    "Follow two-step migration: first upgrade to cocotb 1.9 and fix deprecation warnings, then upgrade to 2.0",
+    "Remove all @cocotb.coroutine decorators - functions are already async",
+    "Remove 'from cocotb.result import TestError, TestFailure, ReturnValue' - unused in current code",
+    "Replace dut._log with cocotb.log for all logging calls",
+    "Consider updating runner.build() to use 'sources' instead of 'verilog_sources'/'vhdl_sources'",
+    "Fix cocotb.cocotb.start_soon to cocotb.start_soon"
+  ],
+  "migration_checklist": [
+    "Remove @cocotb.coroutine decorators (lines 12, 20, 28, 38 in test_implementation.py)",
+    "Remove unused imports: TestError, TestFailure, ReturnValue (line 5)",
+    "Replace dut._log.info with cocotb.log.info (lines 45, 61)",
+    "Fix cocotb.cocotb.start_soon to cocotb.start_soon (line 41)",
+    "Consider updating runner.build() sources parameter"
+  ],
+  "context7_libraries_used": ["/cocotb/cocotb"],
+  "created_at": "2025-01-11T12:00:00Z"
+}
