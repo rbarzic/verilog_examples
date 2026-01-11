@@ -33,7 +33,7 @@ async def rst_n(m):
 
 async def basic_setup(dut):
 
-    cocotb.cocotb.start_soon(Clock(dut.clk, CLK_PERIOD).start())
+    cocotb.start_soon(Clock(dut.clk, CLK_PERIOD).start())
 
     await rst_n(dut)
 
