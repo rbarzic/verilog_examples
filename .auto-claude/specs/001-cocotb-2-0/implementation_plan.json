@@ -81,7 +81,7 @@
             "command": "grep -n 'cocotb.cocotb' test_implementation.py || echo 'No redundant module references found - OK'",
             "expected": "No redundant module references found - OK"
           },
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "subtask-1-4",
@@ -104,7 +104,7 @@
             "command": "grep -n 'dut._log' test_implementation.py || echo 'No dut._log calls found - OK'",
             "expected": "No dut._log calls found - OK"
           },
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "subtask-1-5",
