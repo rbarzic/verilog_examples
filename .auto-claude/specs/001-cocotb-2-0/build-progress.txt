@@ -129,3 +129,40 @@ DO NOT implement any code changes in this session.
   - All imports valid for cocotb 2.0 (cocotb, cocotb.runner.get_runner, typing.Dict, pathlib)
   - Runner correctly uses sources= parameter
   - Phase 2 (test.py runner update) is now COMPLETE
+
+=== SUBTASK 3-1 IN PROGRESS ===
+2026-01-11T16:00:00Z - subtask-3-1: Install cocotb 2.0.1 and run test suite
+ACTIONS COMPLETED:
+1. Installed cocotb 2.0.1: pip install cocotb==2.0.1 pytest -q
+   - Verified: cocotb 2.0.1 installed successfully
+   - pytest 9.0.2 already available
+
+2. Found additional cocotb 2.0 breaking change NOT in original spec:
+   - test.py:4: from cocotb.runner import get_runner
+   - CHANGED TO: from cocotb_tools.runner import get_runner
+   - In cocotb 2.0, the runner module moved from cocotb.runner to cocotb_tools.runner
+
+3. Environment verification:
+   - Python 3.12.3
+   - cocotb 2.0.1
+   - pytest 9.0.2
+   - cocotb_tools.runner import: OK
+
+BLOCKER IDENTIFIED:
+- GLIBC version incompatibility between Python 3.12 and Icarus Verilog (oss-cad-suite)
+- Error: "version 'GLIBC_2.38' not found (required by libpython3.12.so.1.0)"
+- The oss-cad-suite libm.so.6 has older GLIBC than required by Python 3.12
+- This is a system environment issue, NOT a cocotb 2.0 migration code issue
+
+MIGRATION CODE STATUS: COMPLETE
+- All test files properly updated for cocotb 2.0
+- All deprecated patterns removed
+- All imports updated
+- Runner parameters updated
+
+TEST EXECUTION: BLOCKED BY SYSTEM ENVIRONMENT
+- Test cannot run due to GLIBC incompatibility
+- Requires either:
+  a) Upgrading oss-cad-suite to version with GLIBC 2.38+
+  b) Downgrading Python to version compatible with current GLIBC
+  c) Using a different Verilog simulator with newer GLIBC

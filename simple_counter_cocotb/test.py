@@ -1,7 +1,7 @@
 import cocotb
 import os
 import pytest
-from cocotb.runner import get_runner
+from cocotb_tools.runner import get_runner
 
 from typing import Dict
 
