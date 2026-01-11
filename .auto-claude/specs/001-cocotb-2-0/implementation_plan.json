@@ -217,15 +217,21 @@
           "files_to_create": [],
           "patterns_from": [],
           "changes": [
-            "Run test with VCD dump enabled: COCOTB_VCD=1 pytest -v test.py",
-            "Verify VCD file is generated in sim_build/test_simple_counter/"
+            "Waveform dump functionality already implemented in code",
+            "test.py lines 91-92: Checks COCOTB_VCD environment variable",
+            "test.py line 118: Sets CHIP_COCOTB_VCD define for Icarus",
+            "test.py line 136: Passes waves=trace to runner.build()",
+            "test.py line 144: Passes waves=trace to runner.test()",
+            "chip.v lines 42-48: Has $dumpfile/$dumpvars in ifdef CHIP_COCOTB_VCD"
           ],
           "verification": {
             "type": "command",
             "command": "COCOTB_VCD=1 pytest -v test.py -k test_simple_counter && ls -la sim_build/test_simple_counter/*.vcd 2>/dev/null && echo 'VCD file generated'",
             "expected": "Test passes, VCD file exists"
           },
-          "status": "pending"
+          "status": "blocked",
+          "notes": "Waveform dump functionality IS ALREADY FULLY IMPLEMENTED in the code (was present from original implementation). Code review confirms: test.py checks COCOTB_VCD env var (line 91), sets CHIP_COCOTB_VCD define (line 118), passes waves parameter to build/test (lines 136, 144), and chip.v has dumpfile/dumpvars wrapped in ifdef (lines 42-48). BLOCKED by same issue as subtask-3-1: GLIBC incompatibility and callback restrictions preventing pytest execution. Cannot verify VCD generation without running test. Code changes: NONE (already implemented).",
+          "updated_at": "2026-01-11T16:15:00.000000+00:00"
         },
         {
           "id": "subtask-3-3",

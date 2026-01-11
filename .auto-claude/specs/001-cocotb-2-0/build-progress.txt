@@ -166,3 +166,23 @@ TEST EXECUTION: BLOCKED BY SYSTEM ENVIRONMENT
   a) Upgrading oss-cad-suite to version with GLIBC 2.38+
   b) Downgrading Python to version compatible with current GLIBC
   c) Using a different Verilog simulator with newer GLIBC
+
+=== SUBTASK 3-2 STATUS ===
+2026-01-11T16:15:00Z - subtask-3-2: Enable waveform dump and verify test still passes
+FINDING: Waveform dump functionality IS ALREADY FULLY IMPLEMENTED in the original code
+Code review confirms:
+- test.py line 91-92: Checks COCOTB_VCD environment variable, sets trace=True
+- test.py line 118: For icarus simulator, sets CHIP_COCOTB_VCD=1 define
+- test.py line 136: Passes waves=trace to runner.build()
+- test.py line 144: Passes waves=trace to runner.test()
+- chip.v lines 42-48: Has $dumpfile/$dumpvars wrapped in `ifdef CHIP_COCOTB_VCD
+
+NO CODE CHANGES NEEDED - waveform support was already present
+
+BLOCKED by same issue as subtask-3-1:
+- GLIBC incompatibility between Python 3.12 and Icarus Verilog
+- Callback restrictions prevent pytest execution
+- Cannot verify VCD generation without running test
+
+STATUS: BLOCKED (cannot verify without test execution)
+CODE STATUS: COMPLETE (already implemented from original code)
