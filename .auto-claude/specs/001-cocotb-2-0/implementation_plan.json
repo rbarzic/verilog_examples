@@ -250,7 +250,9 @@
             "command": "rm -rf sim_build && pytest -v test.py -k test_simple_counter",
             "expected": "Test passes after clean rebuild"
           },
-          "status": "pending"
+          "status": "blocked",
+          "notes": "Clean state VERIFIED: sim_build directory does not exist, no stale artifacts present. All cocotb 2.0 migration code changes are complete. BLOCKED by same issue as subtask-3-1 and 3-2: GLIBC incompatibility between Python 3.12 and Icarus Verilog, and callback restrictions preventing pytest execution. Cannot run clean rebuild test without resolving system environment issue. Code changes: NONE (already complete from previous subtasks).",
+          "updated_at": "2026-01-11T16:20:00.000000+00:00"
         }
       ]
     }
