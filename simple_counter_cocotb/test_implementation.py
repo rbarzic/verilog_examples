@@ -37,7 +37,7 @@ async def basic_setup(dut):
 
     await rst_n(dut)
 
-    dut._log.info("-D- Reset released")
+    cocotb.log.info("-D- Reset released")
 
 
 
@@ -53,7 +53,7 @@ async def test_simple_counter(dut):
     assert dut.counter.value == 10,  f"Incorrect counter value found : {dut.counter.value} - Expecting 10"
 
     await RisingEdge(dut.clk)
-    dut._log.info("-I- Done !")
+    cocotb.log.info("-I- Done !")
 
 
 # Local Variables:
