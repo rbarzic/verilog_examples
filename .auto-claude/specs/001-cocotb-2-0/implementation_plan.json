@@ -153,7 +153,8 @@
             "command": "grep -n 'verilog_sources\\|vhdl_sources' test.py || echo 'No deprecated parameters found - OK'",
             "expected": "No deprecated parameters found - OK"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Successfully updated runner.build() call: verilog_sources= -> sources=, removed vhdl_sources=[]"
         },
         {
           "id": "subtask-2-2",
