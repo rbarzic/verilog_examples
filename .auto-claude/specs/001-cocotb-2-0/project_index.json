@@ -1,0 +1,53 @@
+{
+  "project_root": "/home/roba/perso/test_auto_claude/verilog_examples/simple_counter_cocotb",
+  "project_type": "single",
+  "project_description": "Simple Verilog counter with cocotb-based verification",
+  "services": {
+    "test_implementation": {
+      "path": ".",
+      "tech_stack": ["python", "cocotb", "verilog"],
+      "entry_point": "test_implementation.py",
+      "test_command": "pytest -v test.py",
+      "dev_command": "echo 'No dev server - this is a hardware verification project'",
+      "description": "Cocotb test implementation for counter verification"
+    },
+    "test_runner": {
+      "path": ".",
+      "tech_stack": ["python", "pytest"],
+      "entry_point": "test.py",
+      "test_command": "pytest -v test.py",
+      "description": "Pytest harness for cocotb tests"
+    }
+  },
+  "infrastructure": {
+    "docker": false,
+    "database": false,
+    "ci_cd": false,
+    "simulator": "icarus"
+  },
+  "conventions": {
+    "linter": null,
+    "formatter": "black",
+    "testing": "pytest",
+    "documentation": "Readme.md"
+  },
+  "dependencies": {
+    "python": ">=3.6.2",
+    "cocotb_target": "2.0.1",
+    "pytest": true
+  },
+  "file_structure": {
+    "verilog_sources": [
+      "chip.v",
+      "clock_gen.v",
+      "reset_generator.v",
+      "tb.v",
+      "useful_tasks.v"
+    ],
+    "python_sources": [
+      "test_implementation.py",
+      "test.py"
+    ],
+    "build_output": "sim_build/"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "task_description": "Fix cocotb verification support and update to cocotb 2.0.1",
+  "scoped_services": ["test_implementation", "test_runner"],
+  "files_to_modify": {
+    "test_implementation": [
+      "test_implementation.py"
+    ],
+    "test_runner": [
+      "test.py"
+    ]
+  },
+  "files_to_reference": [
+    "test_implementation.py",
+    "test.py"
+  ],
+  "patterns": {
+    "coroutine_pattern": "Remove @cocotb.coroutine decorator, keep async def - functions are already natively async",
+    "logging_pattern": "Replace dut._log with cocotb.log - _log is now private in 2.0",
+    "runner_pattern": "Use sources= instead of verilog_sources=/vhdl_sources= - unified parameter in 2.0",
+    "async_preservation": "Do NOT change async def to regular def - all coroutine functions must remain async"
+  },
+  "existing_implementations": {
+    "description": "Current code uses cocotb 1.x patterns: @cocotb.coroutine decorators on async functions (lines 12, 20, 28, 38), imports from cocotb.result (line 5), dut._log logging (lines 45, 61), and verilog_sources runner parameter (line 128)",
+    "relevant_files": [
+      "test_implementation.py - main test file with deprecated patterns",
+      "test.py - pytest harness with deprecated runner parameters"
+    ],
+    "deprecated_api_usage": [
+      "@cocotb.coroutine decorator - removed in 2.0, use plain async def",
+      "from cocotb.result import TestError, TestFailure, ReturnValue - module removed in 2.0",
+      "dut._log.info() - _log is now private, use cocotb.log.info()",
+      "cocotb.cocotb.start_soon() - redundant module reference",
+      "verilog_sources=/vhdl_sources= - deprecated, use sources="
+    ]
+  },
+  "breaking_changes": {
+    "coroutine_decorator": {
+      "old": "@cocotb.coroutine\\nasync def func():",
+      "new": "async def func():",
+      "impact": "Simply remove decorator - functions already async"
+    },
+    "result_module": {
+      "old": "from cocotb.result import TestError, TestFailure, ReturnValue",
+      "new": "Use assert/raise/return instead",
+      "impact": "Remove import line, use standard Python patterns"
+    },
+    "logging": {
+      "old": "dut._log.info('message')",
+      "new": "cocotb.log.info('message')",
+      "impact": "Global logger instead of handle logger"
+    },
+    "runner_sources": {
+      "old": "verilog_sources=[...], vhdl_sources=[]",
+      "new": "sources=[...]",
+      "impact": "Single parameter for both HDL types"
+    }
+  },
+  "gotchas": [
+    "start_soon() schedules tasks 'soon' not immediately - unlike fork()",
+    "Do NOT change async def to regular def - functions must remain async",
+    "CancelledError cannot be caught without re-raising or RuntimeError occurs",
+    "LogicArray replaces BinaryValue with HDL-style indexing"
+  ],
+  "tech_stack": {
+    "language": "Python 3.6+",
+    "testing_framework": "pytest",
+    "verification_framework": "cocotb 2.0.1",
+    "simulator": "Icarus Verilog (default), also supports Verilator, Questa"
+  },
+  "created_at": "2026-01-11T11:48:00Z"
+}

@@ -1,7 +1,7 @@
 import cocotb
 import os
 import pytest
-from cocotb.runner import get_runner
+from cocotb_tools.runner import get_runner
 
 from typing import Dict
 
@@ -125,8 +125,7 @@ class TestClass:
         self.defines.update(extra_defines)
         self.parameters.update(extra_parameters)
         self.runner.build(
-            verilog_sources=self.verilog_sources,
-            vhdl_sources=[],
+            sources=self.verilog_sources,
             hdl_toplevel=self.toplevel,
             always=True,
             defines=self.defines,

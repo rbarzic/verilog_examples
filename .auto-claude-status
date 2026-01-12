@@ -1,0 +1,32 @@
+{
+  "active": true,
+  "spec": "001-cocotb-2-0",
+  "state": "blocked",
+  "subtasks": {
+    "completed": 7,
+    "total": 10,
+    "in_progress": 0,
+    "blocked": 2,
+    "pending": 1,
+    "failed": 0
+  },
+  "phase": {
+    "current": "Integration verification",
+    "id": "phase-3-integration-test",
+    "total": 3
+  },
+  "blocker": {
+    "type": "system_environment",
+    "description": "GLIBC version incompatibility between Python 3.12 and Icarus Verilog (oss-cad-suite). Subtasks 3-1 and 3-2 are blocked - both require test execution to verify.",
+    "affected_subtasks": ["subtask-3-1", "subtask-3-2"]
+  },
+  "workers": {
+    "active": 0,
+    "max": 1
+  },
+  "session": {
+    "number": 73,
+    "started_at": "2026-01-11T11:53:17.699232"
+  },
+  "last_update": "2026-01-11T16:15:00.000000+00:00"
+}
